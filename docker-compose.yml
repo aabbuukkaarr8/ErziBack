@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15                  # или нужная вам версия
+    restart: always
+    environment:
+      POSTGRES_USER:  appuser          # имя пользователя
+      POSTGRES_PASSWORD:  secret       # пароль
+      POSTGRES_DB:      erziapp       # имя БД
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data # чтобы данные не пропадали
+
+volumes:
+  pgdata:
