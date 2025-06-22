@@ -3,7 +3,7 @@ package product
 import "time"
 
 type Product struct {
-	ProductID   int
+	ID          int
 	Title       string
 	Description string
 	Price       float64
@@ -16,7 +16,7 @@ func (r *Repository) Create(p *Product) (*Product, error) {
 	returnedP := &Product{}
 	query := `INSERT INTO products (title, description, price, image_url, created_at, quantity)
               VALUES ($1, $2, $3, $4, $5, $6)
-              RETURNING product_id, title, description, price, image_url, created_at, quantity`
+              RETURNING id, title, description, price, image_url, created_at, quantity`
 
 	err := r.store.GetConn().QueryRow(
 		query,
@@ -26,7 +26,7 @@ func (r *Repository) Create(p *Product) (*Product, error) {
 		p.ImageURL,
 		p.CreatedAt,
 		p.Quantity,
-	).Scan(&returnedP)
+	).Scan(&returnedP.ID, &returnedP.Title, &returnedP.Description, &returnedP.Price, &returnedP.ImageURL, &returnedP.CreatedAt, &returnedP.Quantity)
 	if err != nil {
 		return nil, err
 	}

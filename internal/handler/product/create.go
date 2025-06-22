@@ -1,10 +1,11 @@
 package product
 
 import (
-	serviceProduct "erzi_new/internal/service/product"
+	"net/http"
+
+	"erzi_new/internal/service/product"
 	"erzi_new/pkg/validator"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type CreateProduct struct {
@@ -14,16 +15,31 @@ type CreateProduct struct {
 	Quantity    int     `json:"quantity" validate:"min=0"`
 }
 
+func (m *CreateProduct) ToSrv() product.CreateProduct {
+	return product.CreateProduct{
+		Title:       m.Title,
+		Description: m.Description,
+		Price:       m.Price,
+		Quantity:    m.Quantity,
+	}
+}
+
 func (h *Handler) Create(c *gin.Context) {
-	var product serviceProduct.CreateProduct
-	err := validator.BindJSON(&product, c.Request)
+	var p CreateProduct
+	err := validator.BindJSON(&p, c.Request)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	createdProduct, err := h.srv.Create(product)
+
+	pSrv := p.ToSrv()
+	createdPSrv, err := h.srv.Create(pSrv)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
-	c.JSON(http.StatusCreated, createdProduct)
+
+	createdP := Product{}
+	createdP.FillFromService(createdPSrv)
+	c.JSON(http.StatusCreated, createdP)
 }

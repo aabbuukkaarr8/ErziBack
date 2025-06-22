@@ -27,7 +27,7 @@ func (s *Service) Create(p CreateProduct) (*Product, error) {
 	}
 
 	fromDB := Product{
-		ProductID:   created.ProductID,
+		ID:          created.ID,
 		Title:       created.Title,
 		Description: created.Description,
 		Price:       created.Price,
