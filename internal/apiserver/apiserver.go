@@ -49,6 +49,7 @@ func (s *APIServer) configLogger() error {
 func (s *APIServer) ConfigureRouter(prodHandler *product.Handler) {
 	s.router.POST("/products/create", prodHandler.Create)
 	s.router.GET("/products/:id", prodHandler.GetByID)
+	s.router.GET("/products", prodHandler.GetAll)
 }
 
 func AuthMiddleware() gin.HandlerFunc {
