@@ -6,4 +6,6 @@ type Repo interface {
 	Create(p *product.Product) (*product.Product, error)
 	GetByID(id int) (*product.Product, error)
 	GetAllProducts() ([]product.Product, error)
+	Update(p *product.Product) (*product.Product, error)
+	Delete(id int) error
 }

@@ -50,6 +50,8 @@ func (s *APIServer) ConfigureRouter(prodHandler *product.Handler) {
 	s.router.POST("/products/create", prodHandler.Create)
 	s.router.GET("/products/:id", prodHandler.GetByID)
 	s.router.GET("/products", prodHandler.GetAll)
+	s.router.PUT("/products/:id", prodHandler.Update)
+	s.router.DELETE("/products/:id", prodHandler.Delete)
 }
 
 func AuthMiddleware() gin.HandlerFunc {
