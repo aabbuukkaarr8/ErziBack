@@ -1,6 +1,8 @@
 package apiserver
 
 import (
+	"erzi_new/internal/handler/cart"
+	userhalder "erzi_new/internal/handler/user"
 	"net/http"
 	"strings"
 
@@ -46,10 +48,11 @@ func (s *APIServer) configLogger() error {
 	s.logger.SetLevel(level)
 	return nil
 }
-func (s *APIServer) ConfigureRouter(prodHandler *product.Handler) {
+func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, cartHandler *cart.Handler, userHandler *userhalder.Handler) {
 	s.router.POST("/products/create", prodHandler.Create)
 	s.router.GET("/products/:id", prodHandler.GetByID)
 	s.router.GET("/products", prodHandler.GetAll)
+	s.router.POST("/cart/create", cartHandler.CreateCart)
 	s.router.PUT("/products/:id", prodHandler.Update)
 	s.router.DELETE("/products/:id", prodHandler.Delete)
 }

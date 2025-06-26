@@ -6,9 +6,8 @@ func (s *Service) GetAll() ([]Product, error) {
 		return nil, err
 	}
 
-	dbProducts := dbProductsPtr
-	products := make([]Product, 0, len(dbProducts))
-	for _, dbp := range dbProducts {
+	products := make([]Product, 0, len(dbProductsPtr))
+	for _, dbp := range dbProductsPtr {
 		var p Product
 		p.FillFromDB(&dbp)
 		products = append(products, p)
