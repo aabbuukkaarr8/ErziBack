@@ -1,6 +1,7 @@
 package product
 
 import (
+	"github.com/sirupsen/logrus"
 	"net/http"
 
 	"erzi_new/internal/service/product"
@@ -28,6 +29,7 @@ func (h *Handler) Create(c *gin.Context) {
 	var p CreateProduct
 	err := validator.BindJSON(&p, c.Request)
 	if err != nil {
+		logrus.WithError(err).Warn("User.Create: invalid request JSON")
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

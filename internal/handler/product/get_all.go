@@ -11,6 +11,13 @@ func (h *Handler) GetAll(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	var response []Product
+	for i := range products {
+		var p Product
+		p.FillFromService(&products[i])
+		response = append(response, p)
+	}
 
-	c.JSON(http.StatusOK, gin.H{"products": products})
+	c.JSON(http.StatusOK, response)
+
 }

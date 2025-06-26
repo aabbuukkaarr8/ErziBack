@@ -34,6 +34,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	ps, err := h.srv.GetByID(id)
