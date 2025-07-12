@@ -1,4 +1,4 @@
-package cart
+package user
 
 type Handler struct {
 	srv Service

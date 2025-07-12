@@ -34,5 +34,3 @@ func (r *Repository) Create(p *Product) (*Product, error) {
 	}
 	return returnedP, nil
 }
-
-//Query: could not match actual sql: "INSERT INTO products (title, description, price, image_url, category, created_at, quantity) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id, title, description, price, image_url, category, created_at, quantity" with expected regexp "INSERT INTO products \(title, description, price, image_url, category, created_at, quantity\) VALUES \(\$1,\$2,\$3,\$4,\$5,\$6\) RETURNING id, title, description, price, image_url, category, created_at, quantity"
