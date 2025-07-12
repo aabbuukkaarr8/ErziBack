@@ -49,12 +49,47 @@ func (s *APIServer) configLogger() error {
 	return nil
 }
 func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, cartHandler *cart.Handler, userHandler *userhalder.Handler) {
-	s.router.POST("/products/create", prodHandler.Create)
-	s.router.GET("/products/:id", prodHandler.GetByID)
+	s.router.POST("/user/create", userHandler.Create)
+	s.router.POST("/user/login", userHandler.Login)
+
 	s.router.GET("/products", prodHandler.GetAll)
-	s.router.POST("/cart/create", cartHandler.CreateCart)
-	s.router.PUT("/products/:id", prodHandler.Update)
-	s.router.DELETE("/products/:id", prodHandler.Delete)
+	s.router.GET("/products/:id", prodHandler.GetByID)
+
+	auth := s.router.Group("/auth", AuthMiddleware())
+	{
+		auth.POST("/products/create", RequireRole("admin"), prodHandler.Create)
+		auth.PUT("/products/:id", RequireRole("admin"), prodHandler.Update)
+		auth.DELETE("/products/:id", RequireRole("admin"), prodHandler.Delete)
+		auth.POST("/cart/create", RequireRole("user", "admin"), cartHandler.CreateCart)
+	}
+}
+
+func RequireRole(allowedRoles ...string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		role, exists := c.Get("role")
+		if !exists {
+			c.JSON(http.StatusForbidden, gin.H{"error": "роль не указана"})
+			c.Abort()
+			return
+		}
+
+		roleStr, ok := role.(string)
+		if !ok {
+			c.JSON(http.StatusForbidden, gin.H{"error": "роль имеет неверный формат"})
+			c.Abort()
+			return
+		}
+
+		for _, allowed := range allowedRoles {
+			if roleStr == allowed {
+				c.Next()
+				return
+			}
+		}
+
+		c.JSON(http.StatusForbidden, gin.H{"error": "доступ запрещен"})
+		c.Abort()
+	}
 }
 
 func AuthMiddleware() gin.HandlerFunc {
@@ -77,9 +112,11 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		userID, _ := token.Get("user_id")
+		email, _ := token.Get("email")
 		role, _ := token.Get("role")
 
 		c.Set("user_id", userID)
+		c.Set("email", email)
 		c.Set("role", role)
 
 		c.Next()

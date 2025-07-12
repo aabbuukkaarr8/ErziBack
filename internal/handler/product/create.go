@@ -14,6 +14,7 @@ type CreateProduct struct {
 	Description string  `json:"description" validate:"required"`
 	Price       float64 `json:"price" validate:"required,min=1"`
 	Quantity    int     `json:"quantity" validate:"min=0"`
+	Category    string  `json:"category" validate:"required,oneof=honey-jam meltwater mineral-water equipment"`
 }
 
 func (m *CreateProduct) ToSrv() product.CreateProduct {
@@ -22,6 +23,7 @@ func (m *CreateProduct) ToSrv() product.CreateProduct {
 		Description: m.Description,
 		Price:       m.Price,
 		Quantity:    m.Quantity,
+		Category:    m.Category,
 	}
 }
 
@@ -29,7 +31,7 @@ func (h *Handler) Create(c *gin.Context) {
 	var p CreateProduct
 	err := validator.BindJSON(&p, c.Request)
 	if err != nil {
-		logrus.WithError(err).Warn("User.Create: invalid request JSON")
+		logrus.WithError(err).Warn("Product.Create: invalid request JSON")
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

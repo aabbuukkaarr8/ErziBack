@@ -1,4 +1,4 @@
-package product
+package user
 
 type Service struct {
 	repo Repo
