@@ -55,3 +55,21 @@ func main() {
 		panic(err)
 	}
 }
+
+//
+//{
+//"title": "Spring Water",
+//"description": "Refreshing natural spring water",
+//"price": 2.50,
+//"quantity": 100,
+//"category": "beverages"
+//}
+
+//{
+//"title": "Бутылка воды 10л",
+//"description": "Чистая питьевая вода в бутыли объёмом 10 литров",
+//"price": 319,
+//"image_url": "https://example.com/images/water5l.png",
+//"quantity": 25
+//
+//}
