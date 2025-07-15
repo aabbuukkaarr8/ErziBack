@@ -11,6 +11,7 @@ type CreateProduct struct {
 	Description string
 	Price       float64
 	Quantity    int
+	Category    string
 }
 
 func (s *Service) Create(p CreateProduct) (*Product, error) {
@@ -19,6 +20,7 @@ func (s *Service) Create(p CreateProduct) (*Product, error) {
 		Description: p.Description,
 		Price:       p.Price,
 		Quantity:    p.Quantity,
+		Category:    p.Category,
 		CreatedAt:   time.Now(),
 	}
 	created, err := s.repo.Create(&toDB)
@@ -33,6 +35,7 @@ func (s *Service) Create(p CreateProduct) (*Product, error) {
 		Price:       created.Price,
 		ImageURL:    created.ImageURL,
 		Quantity:    created.Quantity,
+		Category:    created.Category,
 		CreatedAt:   created.CreatedAt,
 	}
 	return &fromDB, nil

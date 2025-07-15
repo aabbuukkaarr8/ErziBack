@@ -4,6 +4,7 @@ import (
 	"erzi_new/internal/service/product"
 	"erzi_new/pkg/validator"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 )
@@ -14,6 +15,7 @@ type UpdateProduct struct {
 	Price       *float64 `json:"price"`
 	Quantity    *int     `json:"quantity"`
 	ImageURL    *string  `json:"image_url"`
+	Category    *string  `json:"category"`
 }
 
 func (m *UpdateProduct) ToSrv(id int) product.UpdateProduct {
@@ -23,6 +25,8 @@ func (m *UpdateProduct) ToSrv(id int) product.UpdateProduct {
 		Description: m.Description,
 		Price:       m.Price,
 		Quantity:    m.Quantity,
+		ImageURL:    m.ImageURL,
+		Category:    m.Category,
 	}
 }
 
@@ -30,6 +34,7 @@ func (h *Handler) Update(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
+		logrus.WithError(err).Errorf("[strConv.Atoi]writed ID is not a number")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "неверный ID"})
 		return
 	}
@@ -37,12 +42,14 @@ func (h *Handler) Update(c *gin.Context) {
 	var input UpdateProduct
 	err = validator.BindJSON(&input, c.Request)
 	if err != nil {
+		logrus.WithError(err).Errorf("[Validate] bind JSON")
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	updatedSrv, err := h.srv.Update(input.ToSrv(id))
 	if err != nil {
+		logrus.WithError(err).Errorf("[Update ] Error updating product")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
