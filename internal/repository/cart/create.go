@@ -5,13 +5,13 @@ type Cart struct {
 	UserID int
 }
 
-func (r *Repository) Create(userID int) (*Cart, error) {
-	var c Cart
-	err := r.store.GetConn().QueryRow(`INSERT INTO carts(user_id) VALUES($1) RETURNING id, user_id`,
-		userID,
-	).Scan(&c.ID, &c.UserID)
-	if err != nil {
+func (r *Repository) CreateCart(userID int) (*Cart, error) {
+	query := `INSERT INTO carts (user_id) VALUES ($1) RETURNING id, user_id`
+	row := r.store.GetConn().QueryRow(query, userID)
+
+	var cart Cart
+	if err := row.Scan(&cart.ID, &cart.UserID); err != nil {
 		return nil, err
 	}
-	return &c, nil
+	return &cart, nil
 }

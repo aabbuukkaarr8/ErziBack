@@ -1,8 +1,9 @@
 package apiserver
 
 import (
-	"erzi_new/internal/handler/cart"
+	"erzi_new/internal/handler/cartItem"
 	userhalder "erzi_new/internal/handler/user"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -48,7 +49,7 @@ func (s *APIServer) configLogger() error {
 	s.logger.SetLevel(level)
 	return nil
 }
-func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, cartHandler *cart.Handler, userHandler *userhalder.Handler) {
+func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *userhalder.Handler, cartitemHandler *cartItem.Handler) {
 	s.router.POST("/user/create", userHandler.Create)
 	s.router.POST("/user/login", userHandler.Login)
 
@@ -57,10 +58,11 @@ func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, cartHandler *c
 
 	auth := s.router.Group("/auth", AuthMiddleware())
 	{
+		auth.POST("/cart/add", RequireRole("admin", "user"), cartitemHandler.AddCartItem)
 		auth.POST("/products/create", RequireRole("admin"), prodHandler.Create)
 		auth.PUT("/products/:id", RequireRole("admin"), prodHandler.Update)
 		auth.DELETE("/products/:id", RequireRole("admin"), prodHandler.Delete)
-		auth.POST("/cart/create", RequireRole("user", "admin"), cartHandler.CreateCart)
+
 	}
 }
 
@@ -111,11 +113,12 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		userID, _ := token.Get("user_id")
+		userID, _ := token.Get("userID")
 		email, _ := token.Get("email")
 		role, _ := token.Get("role")
+		fmt.Printf("userID from JWT = %#v, type = %T\n", userID, userID)
 
-		c.Set("user_id", userID)
+		c.Set("userID", userID)
 		c.Set("email", email)
 		c.Set("role", role)
 

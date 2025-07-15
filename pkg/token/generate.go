@@ -11,7 +11,7 @@ var jwtSecret = []byte("your_secret_key")
 
 func GenerateJWT(userID int, role string, email string) (string, error) {
 	tok := jwt.New()
-	_ = tok.Set("user_id", userID)
+	_ = tok.Set("userID", userID)
 	_ = tok.Set("role", role)
 	_ = tok.Set("email", email)
 	_ = tok.Set("exp", time.Now().Add(24*time.Hour).Unix())
