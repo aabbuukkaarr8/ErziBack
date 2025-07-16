@@ -43,7 +43,7 @@ func (h *Handler) Create(c *gin.Context) {
 	}
 	createdReq := User{}
 	createdReq.FillFromService(createdreqSrv)
-	if createdReq.Role == "" {
+	if createdReq.Role != "admin" {
 		createdReq.Role = "user"
 	}
 	c.JSON(http.StatusCreated, createdReq)

@@ -4,20 +4,18 @@ import (
 	srvcartitem "erzi_new/internal/service/cartItem"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	"net/http"
+	"strconv"
 )
 
-type AddCartItemRequest struct {
-	ProductID int `json:"product_id" binding:"required"`
-}
-
 func (h *Handler) AddCartItem(c *gin.Context) {
-	var req AddCartItemRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		logrus.WithError(err).Errorf("[BindJSON] wrong JSON")
-		c.JSON(400, gin.H{"error": err.Error()})
+	idStr := c.Param("product_id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		logrus.WithError(err).Errorf("[strconv.Atoi] Your id is not int")
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	userID, exists := c.Get("userID")
 	if !exists {
 		logrus.Errorf("[c.Get] не найден userID в токене")
@@ -33,7 +31,7 @@ func (h *Handler) AddCartItem(c *gin.Context) {
 	case int:
 		intUserID = v
 	default:
-		c.JSON(401, gin.H{"error": "invalid user id type"})
+		c.JSON(401, gin.H{"[UserID]": "invalid user id type"})
 		return
 	}
 
@@ -45,16 +43,16 @@ func (h *Handler) AddCartItem(c *gin.Context) {
 	}
 
 	foradd := srvcartitem.AddCartItem{
-		ProductID: req.ProductID,
+		ProductID: id,
 		CartID:    cart,
 	}
 
-	added, err := h.srv.Add(foradd)
+	_, err = h.srv.Add(foradd)
 	if err != nil {
 		logrus.WithError(err).Errorf("[Srv.Add] cant add item")
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(200, added)
+	c.JSON(200, nil)
 }
