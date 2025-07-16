@@ -18,14 +18,14 @@ func (s *Service) Add(p AddCartItem) (*CartItem, error) {
 		ProductID: p.ProductID,
 		CartID:    p.CartID,
 	}
-	added, err := s.repo.Create(toDB.ProductID, toDB.CartID)
+	added, err := s.repo.Create(toDB.CartID, toDB.ProductID)
 	if err != nil {
 		return nil, err
 	}
 	fromDB := CartItem{
 		ProductID: added.ProductID,
 		CartID:    added.CartID,
-		Quantity:  added.Quantity,
+		Quantity:  1,
 	}
 
 	return &fromDB, nil
