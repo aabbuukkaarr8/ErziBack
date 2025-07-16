@@ -4,9 +4,9 @@ func (r *Repository) Update(p *Product) (*Product, error) {
 	updated := &Product{}
 	query := `
     UPDATE products
-    SET title = $1, description = $2, price = $3, image_url = $4, quantity = $5
-    WHERE id = $6
-    RETURNING id, title, description, price, image_url, quantity, created_at
+    SET title = $1, description = $2, price = $3, image_url = $4, quantity = $5, category = $6
+    WHERE id = $7
+    RETURNING id, title, description, price, image_url, quantity, category, created_at
   `
 
 	err := r.store.GetConn().QueryRow(
@@ -16,6 +16,7 @@ func (r *Repository) Update(p *Product) (*Product, error) {
 		p.Price,
 		p.ImageURL,
 		p.Quantity,
+		p.Category,
 		p.ID,
 	).Scan(
 		&updated.ID,
@@ -24,6 +25,7 @@ func (r *Repository) Update(p *Product) (*Product, error) {
 		&updated.Price,
 		&updated.ImageURL,
 		&updated.Quantity,
+		&updated.Category,
 		&updated.CreatedAt,
 	)
 

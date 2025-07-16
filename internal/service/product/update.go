@@ -7,6 +7,7 @@ type UpdateProduct struct {
 	Price       *float64
 	ImageURL    *string
 	Quantity    *int
+	Category    *string
 }
 
 func (s *Service) Update(p UpdateProduct) (*Product, error) {
@@ -28,6 +29,9 @@ func (s *Service) Update(p UpdateProduct) (*Product, error) {
 	}
 	if p.Quantity != nil {
 		current.Quantity = *p.Quantity
+	}
+	if p.Category != nil {
+		current.Category = *p.Category
 	}
 	updated, err := s.repo.Update(current)
 	if err != nil {
