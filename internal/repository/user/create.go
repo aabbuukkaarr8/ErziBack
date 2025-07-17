@@ -1,4 +1,4 @@
-package cart
+package user
 
 import (
 	"time"
@@ -19,7 +19,8 @@ func (r *Repository) Create(u *User) (*User, error) {
 	query := `INSERT INTO users (username, email, password, role, created_at)
         VALUES ($1, $2, $3, $4, $5)
         RETURNING id, username, email, password, role, created_at`
-	err := r.store.GetConn().QueryRow(query,
+	err := r.store.GetConn().QueryRow(
+		query,
 		u.Username,
 		u.Email,
 		u.Password,

@@ -13,6 +13,7 @@ type Product struct {
 	Price       float64
 	ImageURL    string
 	Quantity    int
+	Category    string
 	CreatedAt   time.Time
 }
 
@@ -23,6 +24,7 @@ func (m *Product) FillFromDB(dbm *product.Product) {
 	m.Price = dbm.Price
 	m.ImageURL = dbm.ImageURL
 	m.Quantity = dbm.Quantity
+	m.Category = dbm.Category
 	m.CreatedAt = dbm.CreatedAt
 }
 

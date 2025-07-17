@@ -1,7 +1,10 @@
 package cart
 
-import "erzi_new/internal/repository/cart"
+import (
+	repoCart "erzi_new/internal/repository/cart"
+)
 
 type Repo interface {
-	Create(userID int) (*cart.Cart, error)
+	CreateCart(userID int) (*repoCart.Cart, error)
+	GetCart(userID int) (int, error)
 }
