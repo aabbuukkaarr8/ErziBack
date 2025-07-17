@@ -59,6 +59,7 @@ func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *u
 
 	{
 		protected.POST("/:product_id/add_to_cart", RequireRole("admin"), cartitemHandler.AddCartItem)
+		protected.GET("/cart/items", RequireRole("admin", "user"), cartitemHandler.GetAllCartItems)
 	}
 
 	auth := s.router.Group("/auth", AuthMiddleware())
