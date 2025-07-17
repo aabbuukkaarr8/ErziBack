@@ -9,4 +9,6 @@ type Repo interface {
 	GetAll(cartId int) ([]*cartItem.CartItemWithProduct, error)
 	UpdateQuantity(id, quantity int) (*cartItem.CartItem, error)
 	GetByCartAndProduct(cartID, productID int) (*cartItem.CartItem, error)
+	GetByID(id int) (*cartItem.CartItem, error)
+	Delete(id int) error
 }
