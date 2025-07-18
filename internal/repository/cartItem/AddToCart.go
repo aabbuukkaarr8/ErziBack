@@ -1,15 +1,5 @@
 package cartItem
 
-import "time"
-
-type CartItem struct {
-	ID        int
-	CartID    int
-	ProductID int
-	Quantity  int
-	CreatedAt time.Time
-}
-
 func (r *Repository) Create(cartID, productID int) (*CartItem, error) {
 	query := `INSERT INTO cart_items (cart_id, product_id, quantity) VALUES ($1, $2, 1) RETURNING id, cart_id, product_id, quantity, created_at`
 	var cartItem CartItem

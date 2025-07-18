@@ -2,17 +2,6 @@ package cartItem
 
 import "erzi_new/internal/repository/cartItem"
 
-type AddCartItem struct {
-	ProductID int
-	CartID    int
-}
-
-type CartItem struct {
-	ProductID int
-	CartID    int
-	Quantity  int
-}
-
 func (s *Service) Add(p AddCartItem) (*CartItem, error) {
 	existing, err := s.repo.GetByCartAndProduct(p.CartID, p.ProductID)
 	if err != nil {

@@ -4,15 +4,6 @@ import (
 	"time"
 )
 
-type User struct {
-	ID        int
-	Username  string
-	Email     string
-	Password  string
-	Role      string
-	CreatedAt time.Time
-}
-
 func (r *Repository) Create(u *User) (*User, error) {
 	returnedU := &User{}
 	u.CreatedAt = time.Now()

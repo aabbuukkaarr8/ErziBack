@@ -1,21 +1,8 @@
 package product
 
 import (
-	"time"
-
 	"erzi_new/internal/repository/product"
 )
-
-type Product struct {
-	ID          int
-	Title       string
-	Description string
-	Price       float64
-	ImageURL    string
-	Quantity    int
-	Category    string
-	CreatedAt   time.Time
-}
 
 func (m *Product) FillFromDB(dbm *product.Product) {
 	m.ID = dbm.ID

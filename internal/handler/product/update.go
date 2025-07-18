@@ -9,15 +9,6 @@ import (
 	"strconv"
 )
 
-type UpdateProduct struct {
-	Title       *string  `json:"title"`
-	Description *string  `json:"description"`
-	Price       *float64 `json:"price"`
-	Quantity    *int     `json:"quantity"`
-	ImageURL    *string  `json:"image_url"`
-	Category    *string  `json:"category"`
-}
-
 func (m *UpdateProduct) ToSrv(id int) product.UpdateProduct {
 	return product.UpdateProduct{
 		ID:          id,

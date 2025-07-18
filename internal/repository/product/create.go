@@ -1,18 +1,5 @@
 package product
 
-import "time"
-
-type Product struct {
-	ID          int
-	Title       string
-	Description string
-	Price       float64
-	ImageURL    string
-	Quantity    int
-	Category    string
-	CreatedAt   time.Time
-}
-
 func (r *Repository) Create(p *Product) (*Product, error) {
 	returnedP := &Product{}
 	query := `INSERT INTO products (title, description, price, image_url, category, created_at, quantity)

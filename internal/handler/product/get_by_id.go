@@ -1,25 +1,12 @@
 package product
 
 import (
+	"erzi_new/internal/service/product"
+	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
-	"time"
-
-	"erzi_new/internal/service/product"
-	"github.com/gin-gonic/gin"
 )
-
-type Product struct {
-	ID          int       `json:"id"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Price       float64   `json:"price"`
-	ImageURL    string    `json:"image_url"`
-	Quantity    int       `json:"quantity"`
-	Category    string    `json:"category"`
-	CreatedAt   time.Time `json:"created_at"`
-}
 
 func (m *Product) FillFromService(sm *product.Product) {
 	m.ID = sm.ID

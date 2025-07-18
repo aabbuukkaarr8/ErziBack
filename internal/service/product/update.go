@@ -1,15 +1,5 @@
 package product
 
-type UpdateProduct struct {
-	ID          int
-	Title       *string
-	Description *string
-	Price       *float64
-	ImageURL    *string
-	Quantity    *int
-	Category    *string
-}
-
 func (s *Service) Update(p UpdateProduct) (*Product, error) {
 	current, err := s.repo.GetByID(p.ID)
 	if err != nil {

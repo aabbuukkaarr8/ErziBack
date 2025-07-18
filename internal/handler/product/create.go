@@ -9,14 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type CreateProduct struct {
-	Title       string  `json:"title" validate:"required"`
-	Description string  `json:"description" validate:"required"`
-	Price       float64 `json:"price" validate:"required,min=1"`
-	Quantity    int     `json:"quantity" validate:"min=0"`
-	Category    string  `json:"category" validate:"required,oneof=honey-jam meltwater mineral-water equipment"`
-}
-
 func (m *CreateProduct) ToSrv() product.CreateProduct {
 	return product.CreateProduct{
 		Title:       m.Title,

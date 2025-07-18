@@ -6,14 +6,6 @@ import (
 	"erzi_new/internal/repository/product"
 )
 
-type CreateProduct struct {
-	Title       string
-	Description string
-	Price       float64
-	Quantity    int
-	Category    string
-}
-
 func (s *Service) Create(p CreateProduct) (*Product, error) {
 	toDB := product.Product{
 		Title:       p.Title,

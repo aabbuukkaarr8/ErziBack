@@ -1,20 +1,5 @@
 package cartItem
 
-import "time"
-
-type CartItemWithProduct struct {
-	ID        int
-	CartID    int
-	ProductID int
-	Quantity  int
-	CreatedAt time.Time
-	Product   struct {
-		Title    string
-		Price    float64
-		ImageURL string
-	}
-}
-
 func (r *Repository) GetAll(cartID int) ([]*CartItemWithProduct, error) {
 	query := `SELECT cart_items.id,
 	cart_items.cart_id,
