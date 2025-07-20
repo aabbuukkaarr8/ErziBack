@@ -3,7 +3,6 @@ package apiserver
 import (
 	"erzi_new/internal/handler/cartItem"
 	userhalder "erzi_new/internal/handler/user"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -124,7 +123,6 @@ func AuthMiddleware() gin.HandlerFunc {
 		userID, _ := token.Get("userID")
 		email, _ := token.Get("email")
 		role, _ := token.Get("role")
-		fmt.Printf("userID from JWT = %#v, type = %T\n", userID, userID)
 
 		c.Set("userID", userID)
 		c.Set("email", email)

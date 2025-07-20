@@ -1,7 +1,6 @@
 package cartItem
 
 import (
-	srvcartitem "erzi_new/internal/service/cartItem"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -20,7 +19,6 @@ func (h *Handler) AddCartItem(c *gin.Context) {
 	if !exists {
 		logrus.Errorf("[c.Get] не найден userID в токене")
 		c.JSON(401, gin.H{"error": "unauthorized"})
-		c.Abort()
 		return
 	}
 
@@ -41,13 +39,12 @@ func (h *Handler) AddCartItem(c *gin.Context) {
 		c.JSON(500, gin.H{"error": "cannot get/create cart"})
 		return
 	}
-
-	foradd := srvcartitem.AddCartItem{
+	i := AddCartItem{
 		ProductID: id,
 		CartID:    cart,
 	}
-
-	_, err = h.srv.Add(foradd)
+	iSrv := i.ToSrv()
+	_, err = h.srv.Add(iSrv)
 	if err != nil {
 		logrus.WithError(err).Errorf("[Srv.Add] cant add item")
 		c.JSON(500, gin.H{"error": err.Error()})
