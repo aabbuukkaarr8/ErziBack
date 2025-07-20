@@ -5,6 +5,9 @@ import (
 )
 
 func (r *Repository) Create(u *User) (*User, error) {
+	if u.Role == "" {
+		u.Role = "user"
+	}
 	returnedU := &User{}
 	u.CreatedAt = time.Now()
 	query := `INSERT INTO users (username, email, password, role, created_at)
@@ -20,6 +23,9 @@ func (r *Repository) Create(u *User) (*User, error) {
 	).Scan(&returnedU.ID, &returnedU.Username, &returnedU.Email, &returnedU.Password, &returnedU.Role, &returnedU.CreatedAt)
 	if err != nil {
 		return nil, err
+	}
+	if returnedU.Role == "" {
+		returnedU.Role = "user"
 	}
 	return returnedU, nil
 
