@@ -2,7 +2,6 @@ package user
 
 import (
 	repoUser "erzi_new/internal/repository/user"
-	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
@@ -24,11 +23,6 @@ func (s *Service) Create(input CreateUser) (*User, error) {
 	created, err := s.repo.Create(&toDB)
 	if err != nil {
 		return nil, err
-	}
-
-	_, err = s.cartRepo.CreateCart(created.ID)
-	if err != nil {
-		return nil, fmt.Errorf("не удалось создать корзину: %w", err)
 	}
 
 	fromDB := User{

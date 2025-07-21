@@ -5,6 +5,6 @@ import (
 )
 
 type Repo interface {
-	CreateCart(userID int) (*repoCart.Cart, error)
-	GetCart(userID int) (int, error)
+	Create(userID int, status string) (*repoCart.Cart, error)
+	GetActive(userID int) (int, error)
 }

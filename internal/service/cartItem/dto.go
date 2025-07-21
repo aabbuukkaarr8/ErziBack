@@ -3,6 +3,7 @@ package cartItem
 import "time"
 
 type AddCartItem struct {
+	UserID    int
 	ProductID int
 	CartID    int
 }

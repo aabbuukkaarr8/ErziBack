@@ -1,11 +1,11 @@
 package cart
 
-func (r *Repository) CreateCart(userID int) (*Cart, error) {
-	query := `INSERT INTO carts (user_id) VALUES ($1) RETURNING id, user_id`
-	row := r.store.GetConn().QueryRow(query, userID)
+func (r *Repository) Create(userID int, status string) (*Cart, error) {
+	query := `INSERT INTO carts (user_id, status) VALUES ($1, $2) RETURNING id, user_id, status`
+	row := r.store.GetConn().QueryRow(query, userID, status)
 
 	var cart Cart
-	if err := row.Scan(&cart.ID, &cart.UserID); err != nil {
+	if err := row.Scan(&cart.ID, &cart.UserID, &cart.Status); err != nil {
 		return nil, err
 	}
 	return &cart, nil

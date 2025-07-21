@@ -33,15 +33,9 @@ func (h *Handler) AddCartItem(c *gin.Context) {
 		return
 	}
 
-	cart, err := h.cartsrv.GetCart(intUserID)
-	if err != nil {
-		logrus.WithError(err).Errorf("[GetCart] cart is not found")
-		c.JSON(500, gin.H{"error": "cannot get/create cart"})
-		return
-	}
 	i := AddCartItem{
 		ProductID: id,
-		CartID:    cart,
+		UserID:    intUserID,
 	}
 	iSrv := i.ToSrv()
 	_, err = h.srv.Add(iSrv)
