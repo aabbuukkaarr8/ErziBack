@@ -11,4 +11,5 @@ type Repo interface {
 	GetByCartAndProduct(cartID, productID int) (*cartItem.CartItem, error)
 	GetByID(id int) (*cartItem.CartItem, error)
 	Delete(id int) error
+	DeleteAll(cartID int) error
 }

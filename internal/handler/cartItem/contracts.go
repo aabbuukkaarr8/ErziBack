@@ -10,4 +10,5 @@ type Service interface {
 	Increment(ItemID int) (*cartItem.CartItem, error)
 	Decrement(ItemID int) (*cartItem.CartItem, error)
 	Delete(itemID int) error
+	DeleteAll(cartID int) error
 }

@@ -57,6 +57,7 @@ func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *u
 	protected := s.router.Group("/", AuthMiddleware())
 
 	{
+		protected.PUT("/:cart_id/delete_all", RequireRole("user", "admin"), cartitemHandler.DeleteAll)
 		protected.DELETE("cart/items/:id/delete", RequireRole("user", "admin"), cartitemHandler.DeleteCartItem)
 		protected.PUT("/cart/items/:id/increment", RequireRole("user", "admin"), cartitemHandler.IncrementQuantity)
 		protected.PUT("/cart/items/:id/decrement", RequireRole("user", "admin"), cartitemHandler.DecrementQuantity)
