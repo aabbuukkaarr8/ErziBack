@@ -16,7 +16,7 @@ func TestService_Update_Success(t *testing.T) {
 	mr := new(MockRepo)
 	service := svc.NewService(mr)
 	now := time.Now()
-	original := &repo.Product{
+	original := &repo.Model{
 		ID:          7,
 		Title:       "New Title",
 		Description: "New Desc",
@@ -33,7 +33,7 @@ func TestService_Update_Success(t *testing.T) {
 		Price: &newPrice,
 	}
 	mr.On("GetByID", original.ID).Return(original, nil)
-	mr.On("Update", mock.MatchedBy(func(p *repo.Product) bool {
+	mr.On("Update", mock.MatchedBy(func(p *repo.Model) bool {
 		return p.ID == original.ID &&
 			p.Price == newPrice &&
 			p.Title == original.Title &&
@@ -46,7 +46,7 @@ func TestService_Update_Success(t *testing.T) {
 	got, err := service.Update(input)
 	assert.NoError(t, err)
 
-	want := &svc.Product{}
+	want := &svc.Model{}
 	want.FillFromDB(original)
 	assert.Equal(t, want, got)
 
@@ -57,7 +57,7 @@ func TestService_Update_Fail(t *testing.T) {
 	mr := new(MockRepo)
 	service := svc.NewService(mr)
 	now := time.Now()
-	original := &repo.Product{
+	original := &repo.Model{
 		ID:          2,
 		Title:       "X",
 		Description: "Y",
@@ -73,7 +73,7 @@ func TestService_Update_Fail(t *testing.T) {
 		Title: &newTitle,
 	}
 	mr.On("GetByID", original.ID).Return(original, nil)
-	mr.On("Update", mock.MatchedBy(func(p *repo.Product) bool {
+	mr.On("Update", mock.MatchedBy(func(p *repo.Model) bool {
 		return p.ID == original.ID &&
 			p.Title == newTitle &&
 			p.Description == original.Description &&
@@ -81,7 +81,7 @@ func TestService_Update_Fail(t *testing.T) {
 			p.ImageURL == original.ImageURL &&
 			p.Quantity == original.Quantity &&
 			p.Category == original.Category
-	})).Return((*repo.Product)(nil), errors.New("db fail"))
+	})).Return((*repo.Model)(nil), errors.New("db fail"))
 
 	got, err := service.Update(input)
 	assert.Nil(t, got)

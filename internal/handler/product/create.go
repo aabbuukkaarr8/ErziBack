@@ -35,7 +35,7 @@ func (h *Handler) Create(c *gin.Context) {
 		return
 	}
 
-	createdP := Product{}
+	createdP := Model{}
 	createdP.FillFromService(createdPSrv)
 	c.JSON(http.StatusCreated, createdP)
 }

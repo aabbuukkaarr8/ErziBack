@@ -4,18 +4,28 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"
-	"strconv"
 )
 
 func (h *Handler) DeleteAll(c *gin.Context) {
-	idStr := c.Param("cart_id")
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		logrus.WithError(err).Errorf("[strconv.Atoi] Your id is not int")
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	userID, exists := c.Get("userID")
+	if !exists {
+		logrus.Errorf("[c.Get] не найден userID в токене")
+		c.JSON(401, gin.H{"error": "unauthorized"})
 		return
 	}
-	err = h.srv.DeleteAll(id)
+
+	var intUserID int
+	switch v := userID.(type) {
+	case float64:
+		intUserID = int(v)
+	case int:
+		intUserID = v
+	default:
+		c.JSON(401, gin.H{"[UserID]": "invalid user id type"})
+		return
+	}
+
+	err := h.srv.DeleteAll(intUserID)
 	if err != nil {
 		logrus.WithError(err).Errorf("[srv.DeleteAll] Error")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

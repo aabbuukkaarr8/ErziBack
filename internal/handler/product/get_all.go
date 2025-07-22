@@ -13,9 +13,9 @@ func (h *Handler) GetAll(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	var response []Product
+	var response []Model
 	for i := range products {
-		var p Product
+		var p Model
 		p.FillFromService(&products[i])
 		response = append(response, p)
 	}

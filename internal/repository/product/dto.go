@@ -2,7 +2,7 @@ package product
 
 import "time"
 
-type Product struct {
+type Model struct {
 	ID          int
 	Title       string
 	Description string

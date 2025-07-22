@@ -2,10 +2,10 @@ package cartItem
 
 import "erzi_new/internal/repository/cartItem"
 
-func (s *Service) Add(p AddCartItem) (*CartItem, error) {
-	cartID, err := s.cartRepo.GetActive(p.UserID)
+func (s *Service) Add(p AddCartItemRequest) (*Model, error) {
+	cartID, err := s.cartService.GetActive(p.UserID)
 	if err != nil {
-		cart, err := s.cartRepo.Create(p.UserID, "active")
+		cart, err := s.cartService.Create(p.UserID, "active")
 		if err != nil {
 			return nil, err
 		}
@@ -13,7 +13,7 @@ func (s *Service) Add(p AddCartItem) (*CartItem, error) {
 
 	}
 	p.CartID = cartID
-	
+
 	existing, err := s.repo.GetByCartAndProduct(p.CartID, p.ProductID)
 	if err != nil {
 		return nil, err
@@ -23,13 +23,13 @@ func (s *Service) Add(p AddCartItem) (*CartItem, error) {
 		if err != nil {
 			return nil, err
 		}
-		return &CartItem{
+		return &Model{
 			ProductID: updated.ProductID,
 			CartID:    updated.CartID,
 			Quantity:  updated.Quantity,
 		}, nil
 	}
-	toDB := cartItem.CartItem{
+	toDB := cartItem.Model{
 		ProductID: p.ProductID,
 		CartID:    p.CartID,
 	}
@@ -37,7 +37,7 @@ func (s *Service) Add(p AddCartItem) (*CartItem, error) {
 	if err != nil {
 		return nil, err
 	}
-	fromDB := CartItem{
+	fromDB := Model{
 		ProductID: added.ProductID,
 		CartID:    added.CartID,
 		Quantity:  1,

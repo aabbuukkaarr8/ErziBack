@@ -1,6 +1,6 @@
 package product
 
-func (s *Service) Update(p UpdateProduct) (*Product, error) {
+func (s *Service) Update(p UpdateProduct) (*Model, error) {
 	current, err := s.repo.GetByID(p.ID)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (s *Service) Update(p UpdateProduct) (*Product, error) {
 		return nil, err
 	}
 
-	fromDb := &Product{}
+	fromDb := &Model{}
 	fromDb.FillFromDB(updated)
 	return fromDb, nil
 

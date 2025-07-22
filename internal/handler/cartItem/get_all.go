@@ -23,7 +23,7 @@ func (h *Handler) GetAllCartItems(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid user id type"})
 		return
 	}
-	cartID, err := h.cartsrv.GetActive(uid)
+	cartID, err := h.cartSrv.GetActive(uid)
 	if err != nil {
 		logrus.WithError(err).Error("[GetAllCartItems] cannot get cart")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "cannot get cart"})

@@ -6,8 +6,8 @@ import (
 	"erzi_new/internal/repository/product"
 )
 
-func (s *Service) Create(p CreateProduct) (*Product, error) {
-	toDB := product.Product{
+func (s *Service) Create(p CreateProduct) (*Model, error) {
+	toDB := product.Model{
 		Title:       p.Title,
 		Description: p.Description,
 		Price:       p.Price,
@@ -20,7 +20,7 @@ func (s *Service) Create(p CreateProduct) (*Product, error) {
 		return nil, err
 	}
 
-	fromDB := Product{
+	fromDB := Model{
 		ID:          created.ID,
 		Title:       created.Title,
 		Description: created.Description,

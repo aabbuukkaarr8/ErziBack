@@ -33,7 +33,7 @@ func (h *Handler) AddCartItem(c *gin.Context) {
 		return
 	}
 
-	i := AddCartItem{
+	i := AddCartItemRequest{
 		ProductID: id,
 		UserID:    intUserID,
 	}

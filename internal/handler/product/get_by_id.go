@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-func (m *Product) FillFromService(sm *product.Product) {
+func (m *Model) FillFromService(sm *product.Model) {
 	m.ID = sm.ID
 	m.Title = sm.Title
 	m.Description = sm.Description
@@ -35,7 +35,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 		return
 	}
 
-	p := Product{}
+	p := Model{}
 	p.FillFromService(ps)
 	c.JSON(http.StatusOK, p)
 }

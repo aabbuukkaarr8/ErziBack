@@ -1,6 +1,6 @@
 package cart
 
-type Cart struct {
+type Model struct {
 	ID     int
 	UserID int
 	Status string

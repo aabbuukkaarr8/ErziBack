@@ -1,7 +1,7 @@
 package product
 
-func (r *Repository) Create(p *Product) (*Product, error) {
-	returnedP := &Product{}
+func (r *Repository) Create(p *Model) (*Model, error) {
+	returnedP := &Model{}
 	query := `INSERT INTO products (title, description, price, image_url, category, created_at, quantity)
               VALUES ($1,$2,$3,$4,$5,$6,$7)
               RETURNING id, title, description, price, image_url, category, created_at, quantity`

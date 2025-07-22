@@ -25,7 +25,7 @@ func TestGetByID_Success(t *testing.T) {
 	router := setupRouterGetByID(msvc)
 
 	now := time.Now().Truncate(time.Second)
-	serviceProd := &svc.Product{
+	serviceProd := &svc.Model{
 		ID:          7,
 		Title:       "Tasty Water",
 		Description: "Pure spring",
@@ -42,11 +42,11 @@ func TestGetByID_Success(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	var resp Product
+	var resp Model
 	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	assert.NoError(t, err)
 
-	var want Product
+	var want Model
 	want.FillFromService(serviceProd)
 	assert.Equal(t, want, resp)
 
@@ -57,7 +57,7 @@ func TestGetByID_NotFound(t *testing.T) {
 	msvc := new(MockService)
 	router := setupRouterGetByID(msvc)
 
-	msvc.On("GetByID", 7).Return((*svc.Product)(nil), errors.New("[Get By ID]Product Not Found"))
+	msvc.On("GetByID", 7).Return((*svc.Model)(nil), errors.New("[Get By ID]Product Not Found"))
 
 	req := httptest.NewRequest(http.MethodGet, "/products/7", nil)
 	w := httptest.NewRecorder()

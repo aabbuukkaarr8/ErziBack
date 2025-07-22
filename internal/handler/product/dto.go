@@ -10,7 +10,7 @@ type CreateProduct struct {
 	Category    string  `json:"category" validate:"required,oneof=honey-jam meltwater mineral-water equipment"`
 }
 
-type Product struct {
+type Model struct {
 	ID          int       `json:"id"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`

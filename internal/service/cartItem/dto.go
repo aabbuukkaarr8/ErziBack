@@ -1,14 +1,28 @@
 package cartItem
 
-import "time"
+import (
+	"erzi_new/internal/repository/cartItem"
+	"time"
+)
 
-type AddCartItem struct {
+func (m *ModelResponse) FillFromDB(dbm *cartItem.ModelWithProduct) {
+	m.ID = dbm.ID
+	m.Quantity = dbm.Quantity
+	m.CartID = dbm.CartID
+	m.ProductID = dbm.ProductID
+	m.CreatedAt = dbm.CreatedAt
+	m.Product.Title = dbm.Product.Title
+	m.Product.Price = dbm.Product.Price
+	m.Product.ImageURL = dbm.Product.ImageURL
+}
+
+type AddCartItemRequest struct {
 	UserID    int
 	ProductID int
 	CartID    int
 }
 
-type CartItem struct {
+type Model struct {
 	ID        int
 	ProductID int
 	CartID    int
@@ -22,7 +36,7 @@ type ProductMiniInfo struct {
 	ImageURL string  `json:"image_url"`
 }
 
-type CartItemResponse struct {
+type ModelResponse struct {
 	ID        int             `json:"id"`
 	CartID    int             `json:"cart_id"`
 	ProductID int             `json:"product_id"`

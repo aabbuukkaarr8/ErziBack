@@ -1,6 +1,6 @@
 package cartItem
 
-func (s *Service) Increment(itemID int) (*CartItem, error) {
+func (s *Service) Increment(itemID int) (*Model, error) {
 	existing, err := s.repo.GetByID(itemID)
 	if err != nil {
 		return nil, err
@@ -9,7 +9,7 @@ func (s *Service) Increment(itemID int) (*CartItem, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &CartItem{
+	return &Model{
 		ProductID: updated.ProductID,
 		CartID:    updated.CartID,
 		Quantity:  updated.Quantity,

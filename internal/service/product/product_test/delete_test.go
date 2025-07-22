@@ -15,7 +15,7 @@ func TestService_Delete_Succes(t *testing.T) {
 	mr := new(MockRepo)
 	service := svc.NewService(mr)
 	now := time.Now()
-	existing := &repo.Product{
+	existing := &repo.Model{
 		ID:          7,
 		Title:       "A",
 		Description: "B",
@@ -38,7 +38,7 @@ func TestService_Delete_GetByID_NotFound(t *testing.T) {
 	mr := new(MockRepo)
 	service := svc.NewService(mr)
 
-	mr.On("GetByID", 99).Return((*repo.Product)(nil), errors.New("not found"))
+	mr.On("GetByID", 99).Return((*repo.Model)(nil), errors.New("not found"))
 
 	err := service.Delete(99)
 	assert.EqualError(t, err, "not found")
@@ -51,7 +51,7 @@ func TestService_Delete_DeleteError(t *testing.T) {
 	service := svc.NewService(mr)
 
 	now := time.Now().Truncate(time.Second)
-	existing := &repo.Product{
+	existing := &repo.Model{
 		ID:          5,
 		Title:       "X",
 		Description: "Y",

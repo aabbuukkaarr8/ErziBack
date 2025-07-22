@@ -1,6 +1,6 @@
 package cartItem
 
-func (r *Repository) GetByID(id int) (*CartItem, error) {
+func (r *Repository) GetByID(id int) (*Model, error) {
 	const query = `
         SELECT id, cart_id, product_id, quantity, created_at
           FROM cart_items
@@ -8,7 +8,7 @@ func (r *Repository) GetByID(id int) (*CartItem, error) {
     `
 	row := r.store.GetConn().QueryRow(query, id)
 
-	var itm CartItem
+	var itm Model
 	if err := row.Scan(
 		&itm.ID,
 		&itm.CartID,

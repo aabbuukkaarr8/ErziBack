@@ -28,7 +28,7 @@ func TestUpdate_Success(t *testing.T) {
 	router := setupRouterUpdate(msvc)
 
 	now := time.Now().Truncate(time.Second)
-	returned := &svc.Product{
+	returned := &svc.Model{
 		ID:          7,
 		Title:       "",
 		Description: "",
@@ -50,10 +50,10 @@ func TestUpdate_Success(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	var resp Product
+	var resp Model
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
 
-	want := Product{}
+	want := Model{}
 	want.FillFromService(returned)
 	assert.Equal(t, want, resp)
 
@@ -79,7 +79,7 @@ func TestUpdate_ServiceError(t *testing.T) {
 	router := setupRouterUpdate(msvc)
 
 	dto := svc.UpdateProduct{ID: 7, Price: ptrFloat64(4.4)}
-	msvc.On("Update", dto).Return((*svc.Product)(nil), errors.New("update failed"))
+	msvc.On("Update", dto).Return((*svc.Model)(nil), errors.New("update failed"))
 
 	body, _ := json.Marshal(map[string]float64{"price": 4.4})
 	req := httptest.NewRequest(http.MethodPut, "/products/7", bytes.NewReader(body))

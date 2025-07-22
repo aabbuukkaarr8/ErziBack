@@ -1,5 +1,10 @@
 package cartItem
 
-func (s *Service) DeleteAll(cartID int) error {
-	return s.repo.DeleteAll(cartID)
+func (s *Service) DeleteAll(userID int) error {
+	activeCart, err := s.cartService.GetActive(userID)
+	if err != nil {
+		return err
+	}
+
+	return s.repo.DeleteAll(activeCart)
 }

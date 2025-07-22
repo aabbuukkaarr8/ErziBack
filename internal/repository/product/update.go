@@ -1,7 +1,7 @@
 package product
 
-func (r *Repository) Update(p *Product) (*Product, error) {
-	updated := &Product{}
+func (r *Repository) Update(p *Model) (*Model, error) {
+	updated := &Model{}
 	query := `
     UPDATE products
     SET title = $1, description = $2, price = $3, image_url = $4, quantity = $5, category = $6

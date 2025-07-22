@@ -20,7 +20,7 @@ func TestRepository_Update_Succes(t *testing.T) {
 	s.SetConn(db)
 	repo := product.NewRepository(s)
 	now := time.Now()
-	input := &product.Product{
+	input := &product.Model{
 		ID:          7,
 		Title:       "New Title",
 		Description: "New Desc",
@@ -57,7 +57,7 @@ func TestRepository_Update_NotFound(t *testing.T) {
 	s.SetConn(db)
 	repo := product.NewRepository(s)
 
-	input := &product.Product{
+	input := &product.Model{
 		ID:          999,
 		Title:       "X",
 		Description: "Y",
@@ -87,7 +87,7 @@ func TestRepository_Update_OnlyPrice(t *testing.T) {
 	repo := product.NewRepository(s)
 
 	now := time.Now().Truncate(time.Second)
-	input := &product.Product{
+	input := &product.Model{
 		ID:    7,
 		Price: 9.99,
 	}

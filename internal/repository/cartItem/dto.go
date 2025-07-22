@@ -2,23 +2,23 @@ package cartItem
 
 import "time"
 
-type CartItem struct {
+type Model struct {
 	ID        int
 	CartID    int
 	ProductID int
 	Quantity  int
 	CreatedAt time.Time
 }
-
-type CartItemWithProduct struct {
+type ProductMiniInfo struct {
+	Title    string
+	Price    float64
+	ImageURL string
+}
+type ModelWithProduct struct {
 	ID        int
 	CartID    int
 	ProductID int
 	Quantity  int
 	CreatedAt time.Time
-	Product   struct {
-		Title    string
-		Price    float64
-		ImageURL string
-	}
+	Product   ProductMiniInfo
 }

@@ -21,7 +21,7 @@ func TestService_Create(t *testing.T) {
 		Category:    "beverages",
 	}
 
-	repoProd := &product.Product{
+	repoProd := &product.Model{
 		ID:          7,
 		Title:       input.Title,
 		Description: input.Description,
@@ -32,7 +32,7 @@ func TestService_Create(t *testing.T) {
 		CreatedAt:   now,
 	}
 	mr.
-		On("Create", mock.MatchedBy(func(p *product.Product) bool {
+		On("Create", mock.MatchedBy(func(p *product.Model) bool {
 			return p.Title == input.Title &&
 				p.Description == input.Description &&
 				p.Price == input.Price &&
@@ -43,7 +43,7 @@ func TestService_Create(t *testing.T) {
 
 	out, err := service.Create(input)
 	assert.NoError(t, err)
-	assert.Equal(t, svc.Product{
+	assert.Equal(t, svc.Model{
 		ID:          repoProd.ID,
 		Title:       repoProd.Title,
 		Description: repoProd.Description,

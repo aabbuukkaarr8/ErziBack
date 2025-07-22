@@ -23,7 +23,7 @@ func TestRepository_Create(t *testing.T) {
 	repo := productrepo.NewRepository(s)
 
 	now := time.Now().Truncate(time.Second)
-	p := &productrepo.Product{
+	p := &productrepo.Model{
 		Title:       "Product Title",
 		Description: "Product Description",
 		Price:       123,

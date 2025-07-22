@@ -25,7 +25,7 @@ func TestGetAll_Success(t *testing.T) {
 	router := setupRouterGetAll(msvc)
 
 	now := time.Now().Truncate(time.Second)
-	svcProducts := []svc.Product{
+	svcProducts := []svc.Model{
 		{ID: 1, Title: "A", Description: "Desc A", Price: 1.1, ImageURL: "u1", Quantity: 10, Category: "cat1", CreatedAt: now},
 		{ID: 2, Title: "B", Description: "Desc B", Price: 2.2, ImageURL: "u2", Quantity: 20, Category: "cat2", CreatedAt: now},
 	}
@@ -37,13 +37,13 @@ func TestGetAll_Success(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	var resp []Product
+	var resp []Model
 	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	assert.NoError(t, err)
 
-	want := make([]Product, len(svcProducts))
+	want := make([]Model, len(svcProducts))
 	for i, sp := range svcProducts {
-		var p Product
+		var p Model
 		p.FillFromService(&sp)
 		want[i] = p
 	}

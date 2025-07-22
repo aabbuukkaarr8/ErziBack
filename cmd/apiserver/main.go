@@ -45,19 +45,19 @@ func main() {
 	cartRepo := cartrepo.NewRepository(db)
 	productRepo := productrepo.NewRepository(db)
 	userRepo := userrepo.NewRepository(db)
-	cartitemRepo := cartitemrepo.NewRepository(db)
+	cartItemRepo := cartitemrepo.NewRepository(db)
 	//srv
 	cartSrv := cartsrv.NewService(cartRepo)
 	productSrv := productsrv.NewService(productRepo)
 	userSrv := usersrv.NewService(userRepo, cartRepo)
-	cartitemSrv := cartitemsrv.NewService(cartitemRepo, cartRepo)
+	cartItemSrv := cartitemsrv.NewService(cartItemRepo, cartRepo)
 	//handler
 	userHandler := userhalder.NewHandler(userSrv)
-	cartitemHandler := cartitemhalder.NewHandler(cartitemSrv, cartSrv)
+	cartItemHandler := cartitemhalder.NewHandler(cartItemSrv, cartSrv)
 	productHandler := producthalder.NewHandler(productSrv)
 
 	s := apiserver.New(config)
-	s.ConfigureRouter(productHandler, userHandler, cartitemHandler)
+	s.ConfigureRouter(productHandler, userHandler, cartItemHandler)
 
 	if err := s.Run(); err != nil {
 		panic(err)

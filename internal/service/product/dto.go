@@ -1,6 +1,18 @@
 package product
 
 import "time"
+import "erzi_new/internal/repository/product"
+
+func (m *Model) FillFromDB(dbm *product.Model) {
+	m.ID = dbm.ID
+	m.Title = dbm.Title
+	m.Description = dbm.Description
+	m.Price = dbm.Price
+	m.ImageURL = dbm.ImageURL
+	m.Quantity = dbm.Quantity
+	m.Category = dbm.Category
+	m.CreatedAt = dbm.CreatedAt
+}
 
 type CreateProduct struct {
 	Title       string
@@ -10,7 +22,7 @@ type CreateProduct struct {
 	Category    string
 }
 
-type Product struct {
+type Model struct {
 	ID          int
 	Title       string
 	Description string

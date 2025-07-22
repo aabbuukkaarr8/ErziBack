@@ -1,7 +1,7 @@
 package cartItem
 
-func (r *Repository) GetAll(cartID int) ([]CartItemWithProduct, error) {
-	var out []CartItemWithProduct
+func (r *Repository) GetAll(cartID int) ([]ModelWithProduct, error) {
+	var out []ModelWithProduct
 	query := `SELECT cart_items.id,
 	cart_items.cart_id,
 	cart_items.product_id,
@@ -21,7 +21,7 @@ func (r *Repository) GetAll(cartID int) ([]CartItemWithProduct, error) {
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var itm CartItemWithProduct
+		var itm ModelWithProduct
 		if err := rows.Scan(
 			&itm.ID,
 			&itm.CartID,

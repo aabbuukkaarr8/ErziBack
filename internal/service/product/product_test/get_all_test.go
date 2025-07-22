@@ -15,14 +15,14 @@ func TestService_GetAll_Success(t *testing.T) {
 	mr := new(MockRepo)
 	service := svc.NewService(mr)
 	now := time.Now()
-	repoProds := []repo.Product{
+	repoProds := []repo.Model{
 		{ID: 1, Title: "A", Description: "Desc A", Price: 1.1, ImageURL: "u1", Quantity: 10, Category: "cat1", CreatedAt: now},
 		{ID: 2, Title: "B", Description: "Desc B", Price: 2.2, ImageURL: "u2", Quantity: 20, Category: "cat2", CreatedAt: now},
 	}
 	mr.On("GetAllProducts").Return(repoProds, nil)
 	got, err := service.GetAll()
 	assert.NoError(t, err)
-	want := []svc.Product{
+	want := []svc.Model{
 		{ID: 1, Title: "A", Description: "Desc A", Price: 1.1, ImageURL: "u1", Quantity: 10, Category: "cat1", CreatedAt: now},
 		{ID: 2, Title: "B", Description: "Desc B", Price: 2.2, ImageURL: "u2", Quantity: 20, Category: "cat2", CreatedAt: now},
 	}

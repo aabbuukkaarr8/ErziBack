@@ -45,7 +45,7 @@ func (h *Handler) Update(c *gin.Context) {
 		return
 	}
 
-	result := Product{}
+	result := Model{}
 	result.FillFromService(updatedSrv)
 
 	c.JSON(http.StatusOK, result)

@@ -1,18 +1,16 @@
 package cartItem
 
-import cartService "erzi_new/internal/service/cart"
-
 type Service struct {
-	repo     Repo
-	cartRepo cartService.Repo
+	repo        Repo
+	cartService CartService
 }
 
 func NewService(
 	repo Repo,
-	cartRepo cartService.Repo,
+	cartService CartService,
 ) *Service {
 	return &Service{
-		repo:     repo,
-		cartRepo: cartRepo,
+		repo:        repo,
+		cartService: cartService,
 	}
 }

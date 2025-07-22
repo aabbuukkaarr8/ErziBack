@@ -33,7 +33,7 @@ func TestCreate_Success(t *testing.T) {
 	}
 	body, _ := json.Marshal(input)
 
-	returned := &svc.Product{
+	returned := &svc.Model{
 		ID:          123,
 		Title:       input.Title,
 		Description: input.Description,
@@ -50,7 +50,7 @@ func TestCreate_Success(t *testing.T) {
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusCreated, w.Code)
-	var resp svc.Product
+	var resp svc.Model
 	_ = json.Unmarshal(w.Body.Bytes(), &resp)
 	assert.Equal(t, *returned, resp)
 
@@ -69,7 +69,7 @@ func TestCreate_ServiceError(t *testing.T) {
 		Category:    "beverages",
 	}
 
-	msvc.On("Create", input).Return((*svc.Product)(nil), assert.AnError)
+	msvc.On("Create", input).Return((*svc.Model)(nil), assert.AnError)
 
 	body, _ := json.Marshal(input)
 	req := httptest.NewRequest(http.MethodPost, "/products/create", bytes.NewReader(body))

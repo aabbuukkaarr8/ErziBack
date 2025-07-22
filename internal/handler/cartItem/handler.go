@@ -1,15 +1,13 @@
 package cartItem
 
-import cartService "erzi_new/internal/handler/cart"
-
 type Handler struct {
 	srv     Service
-	cartsrv cartService.Service
+	cartSrv CartService
 }
 
-func NewHandler(srv Service, cartsrv cartService.Service) *Handler {
+func NewHandler(srv Service, cartSrv CartService) *Handler {
 	return &Handler{
 		srv:     srv,
-		cartsrv: cartsrv,
+		cartSrv: cartSrv,
 	}
 }
