@@ -1,6 +1,7 @@
 package user
 
 import (
+	"github.com/google/uuid"
 	"time"
 )
 
@@ -10,11 +11,12 @@ func (r *Repository) Create(u *User) (*User, error) {
 	}
 	returnedU := &User{}
 	u.CreatedAt = time.Now()
-	query := `INSERT INTO users (username, email, password, role, created_at)
-        VALUES ($1, $2, $3, $4, $5)
+	query := `INSERT INTO users (id, username, email, password, role, created_at)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING id, username, email, password, role, created_at`
 	err := r.store.GetConn().QueryRow(
 		query,
+		uuid.New(),
 		u.Username,
 		u.Email,
 		u.Password,

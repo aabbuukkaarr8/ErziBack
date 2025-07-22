@@ -1,6 +1,9 @@
 package cartItem
 
-import "erzi_new/internal/service/cartItem"
+import (
+	"erzi_new/internal/service/cartItem"
+	"github.com/google/uuid"
+)
 
 func (m *AddCartItemRequest) ToSrv() cartItem.AddCartItemRequest {
 	return cartItem.AddCartItemRequest{
@@ -11,5 +14,5 @@ func (m *AddCartItemRequest) ToSrv() cartItem.AddCartItemRequest {
 
 type AddCartItemRequest struct {
 	ProductID int
-	UserID    int
+	UserID    uuid.UUID
 }

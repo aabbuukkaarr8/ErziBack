@@ -1,6 +1,8 @@
 package cartItem
 
-func (s *Service) DeleteAll(userID int) error {
+import "github.com/google/uuid"
+
+func (s *Service) DeleteAll(userID uuid.UUID) error {
 	activeCart, err := s.cartService.GetActive(userID)
 	if err != nil {
 		return err

@@ -2,6 +2,7 @@ package cartItem
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
@@ -15,27 +16,25 @@ func (h *Handler) AddCartItem(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	userID, exists := c.Get("userID")
+	raw, exists := c.Get("userID")
 	if !exists {
-		logrus.Errorf("[c.Get] не найден userID в токене")
-		c.JSON(401, gin.H{"error": "unauthorized"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
-
-	var intUserID int
-	switch v := userID.(type) {
-	case float64:
-		intUserID = int(v)
-	case int:
-		intUserID = v
-	default:
-		c.JSON(401, gin.H{"[UserID]": "invalid user id type"})
+	s, ok := raw.(string)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+	userID, err := uuid.Parse(s)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
 
 	i := AddCartItemRequest{
 		ProductID: id,
-		UserID:    intUserID,
+		UserID:    userID,
 	}
 	iSrv := i.ToSrv()
 	_, err = h.srv.Add(iSrv)
@@ -44,6 +43,5 @@ func (h *Handler) AddCartItem(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(200, nil)
 }

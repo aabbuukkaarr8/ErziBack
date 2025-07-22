@@ -2,6 +2,7 @@ package cartItem
 
 import (
 	"erzi_new/internal/repository/cartItem"
+	"github.com/google/uuid"
 	"time"
 )
 
@@ -17,7 +18,7 @@ func (m *ModelResponse) FillFromDB(dbm *cartItem.ModelWithProduct) {
 }
 
 type AddCartItemRequest struct {
-	UserID    int
+	UserID    uuid.UUID
 	ProductID int
 	CartID    int
 }

@@ -1,6 +1,8 @@
 package cart
 
-func (r *Repository) Create(userID int, status string) (*Model, error) {
+import "github.com/google/uuid"
+
+func (r *Repository) Create(userID uuid.UUID, status string) (*Model, error) {
 	query := `INSERT INTO carts (user_id, status) VALUES ($1, $2) RETURNING id, user_id, status`
 	row := r.store.GetConn().QueryRow(query, userID, status)
 
