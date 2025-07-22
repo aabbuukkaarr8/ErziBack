@@ -2,6 +2,7 @@ package cartItem
 
 import (
 	"erzi_new/internal/service/cartItem"
+	"github.com/google/uuid"
 )
 
 type Service interface {
@@ -10,9 +11,9 @@ type Service interface {
 	Increment(ItemID int) (*cartItem.Model, error)
 	Decrement(ItemID int) (*cartItem.Model, error)
 	Delete(itemID int) error
-	DeleteAll(cartID int) error
+	DeleteAll(userID uuid.UUID) error
 }
 
 type CartService interface {
-	GetActive(userID int) (int, error)
+	GetActive(userID uuid.UUID) (int, error)
 }

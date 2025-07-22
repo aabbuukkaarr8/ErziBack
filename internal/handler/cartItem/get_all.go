@@ -2,28 +2,29 @@ package cartItem
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
 func (h *Handler) GetAllCartItems(c *gin.Context) {
-	userID, exists := c.Get("userID")
+	raw, exists := c.Get("userID")
 	if !exists {
-		logrus.Error("[GetAllCartItems] userID not found in JWT")
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
-	var uid int
-	switch v := userID.(type) {
-	case float64:
-		uid = int(v)
-	case int:
-		uid = v
-	default:
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid user id type"})
+	s, ok := raw.(string)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
-	cartID, err := h.cartSrv.GetActive(uid)
+	userID, err := uuid.Parse(s)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	cartID, err := h.cartSrv.GetActive(userID)
 	if err != nil {
 		logrus.WithError(err).Error("[GetAllCartItems] cannot get cart")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "cannot get cart"})

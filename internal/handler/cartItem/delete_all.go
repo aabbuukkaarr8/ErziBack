@@ -2,30 +2,30 @@ package cartItem
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
 func (h *Handler) DeleteAll(c *gin.Context) {
-	userID, exists := c.Get("userID")
+
+	raw, exists := c.Get("userID")
 	if !exists {
-		logrus.Errorf("[c.Get] не найден userID в токене")
-		c.JSON(401, gin.H{"error": "unauthorized"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+	s, ok := raw.(string)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+	userID, err := uuid.Parse(s)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
 
-	var intUserID int
-	switch v := userID.(type) {
-	case float64:
-		intUserID = int(v)
-	case int:
-		intUserID = v
-	default:
-		c.JSON(401, gin.H{"[UserID]": "invalid user id type"})
-		return
-	}
-
-	err := h.srv.DeleteAll(intUserID)
+	err = h.srv.DeleteAll(userID)
 	if err != nil {
 		logrus.WithError(err).Errorf("[srv.DeleteAll] Error")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
