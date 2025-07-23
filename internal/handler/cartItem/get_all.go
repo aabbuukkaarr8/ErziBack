@@ -27,7 +27,7 @@ func (h *Handler) GetAllCartItems(c *gin.Context) {
 	cartID, err := h.cartSrv.GetActive(userID)
 	if err != nil {
 		logrus.WithError(err).Error("[GetAllCartItems] cannot get cart")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "cannot get cart"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "корзина пуста"})
 		return
 	}
 	items, err := h.srv.GetAll(cartID)
