@@ -1,22 +1,10 @@
 package product
 
-import "time"
-
-type Product struct {
-	ID          int
-	Title       string
-	Description string
-	Price       float64
-	ImageURL    string
-	Quantity    int
-	CreatedAt   time.Time
-}
-
-func (r *Repository) Create(p *Product) (*Product, error) {
-	returnedP := &Product{}
-	query := `INSERT INTO products (title, description, price, image_url, created_at, quantity)
-              VALUES ($1, $2, $3, $4, $5, $6)
-              RETURNING id, title, description, price, image_url, created_at, quantity`
+func (r *Repository) Create(p *Model) (*Model, error) {
+	returnedP := &Model{}
+	query := `INSERT INTO products (title, description, price, image_url, category, created_at, quantity)
+              VALUES ($1,$2,$3,$4,$5,$6,$7)
+              RETURNING id, title, description, price, image_url, category, created_at, quantity`
 
 	err := r.store.GetConn().QueryRow(
 		query,
@@ -24,9 +12,10 @@ func (r *Repository) Create(p *Product) (*Product, error) {
 		p.Description,
 		p.Price,
 		p.ImageURL,
+		p.Category,
 		p.CreatedAt,
 		p.Quantity,
-	).Scan(&returnedP.ID, &returnedP.Title, &returnedP.Description, &returnedP.Price, &returnedP.ImageURL, &returnedP.CreatedAt, &returnedP.Quantity)
+	).Scan(&returnedP.ID, &returnedP.Title, &returnedP.Description, &returnedP.Price, &returnedP.ImageURL, &returnedP.Category, &returnedP.CreatedAt, &returnedP.Quantity)
 	if err != nil {
 		return nil, err
 	}

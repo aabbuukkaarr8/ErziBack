@@ -15,3 +15,8 @@ func NewConfig() *Config {
 		Store:    store.NewConfig(),
 	}
 }
+
+//psql "postgres://appuser:secret@localhost:5432/erziapp?sslmode=disable"
+
+//psql "postgres://appuser:secret@localhost:5432/erziapp?sslmode=disable" \
+//-c "ALTER TABLE products ADD COLUMN category TEXT NOT NULL DEFAULT 'general';"

@@ -1,25 +1,22 @@
-package cart
+package user
 
 import (
+	"github.com/google/uuid"
 	"time"
 )
 
-type User struct {
-	ID        int
-	Username  string
-	Email     string
-	Password  string
-	Role      string
-	CreatedAt time.Time
-}
-
 func (r *Repository) Create(u *User) (*User, error) {
+	if u.Role == "" {
+		u.Role = "user"
+	}
 	returnedU := &User{}
 	u.CreatedAt = time.Now()
-	query := `INSERT INTO users (username, email, password, role, created_at)
-        VALUES ($1, $2, $3, $4, $5)
+	query := `INSERT INTO users (id, username, email, password, role, created_at)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING id, username, email, password, role, created_at`
-	err := r.store.GetConn().QueryRow(query,
+	err := r.store.GetConn().QueryRow(
+		query,
+		uuid.New(),
 		u.Username,
 		u.Email,
 		u.Password,
@@ -28,6 +25,9 @@ func (r *Repository) Create(u *User) (*User, error) {
 	).Scan(&returnedU.ID, &returnedU.Username, &returnedU.Email, &returnedU.Password, &returnedU.Role, &returnedU.CreatedAt)
 	if err != nil {
 		return nil, err
+	}
+	if returnedU.Role == "" {
+		returnedU.Role = "user"
 	}
 	return returnedU, nil
 

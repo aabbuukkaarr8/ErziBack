@@ -6,19 +6,13 @@ import (
 	"erzi_new/internal/repository/product"
 )
 
-type CreateProduct struct {
-	Title       string
-	Description string
-	Price       float64
-	Quantity    int
-}
-
-func (s *Service) Create(p CreateProduct) (*Product, error) {
-	toDB := product.Product{
+func (s *Service) Create(p CreateProduct) (*Model, error) {
+	toDB := product.Model{
 		Title:       p.Title,
 		Description: p.Description,
 		Price:       p.Price,
 		Quantity:    p.Quantity,
+		Category:    p.Category,
 		CreatedAt:   time.Now(),
 	}
 	created, err := s.repo.Create(&toDB)
@@ -26,13 +20,14 @@ func (s *Service) Create(p CreateProduct) (*Product, error) {
 		return nil, err
 	}
 
-	fromDB := Product{
+	fromDB := Model{
 		ID:          created.ID,
 		Title:       created.Title,
 		Description: created.Description,
 		Price:       created.Price,
 		ImageURL:    created.ImageURL,
 		Quantity:    created.Quantity,
+		Category:    created.Category,
 		CreatedAt:   created.CreatedAt,
 	}
 	return &fromDB, nil

@@ -1,17 +1,23 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
-    image: postgres:15                  # или нужная вам версия
+    build:
+      context: .            # корень вашего проекта
+      dockerfile: Dockerfile
     restart: always
+    container_name: erziback_db
     environment:
-      POSTGRES_USER:  appuser          # имя пользователя
-      POSTGRES_PASSWORD:  secret       # пароль
-      POSTGRES_DB:      erziapp       # имя БД
+      POSTGRES_USER:     appuser
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB:       erziapp
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data # чтобы данные не пропадали
+      - pgdata:/var/lib/postgresql/data
+
+  # здесь ваш сервис (api), minio, kafka и т.д.
+  # …
 
 volumes:
   pgdata:

@@ -2,13 +2,15 @@ package main
 
 import (
 	"erzi_new/internal/apiserver"
-	cartHalder "erzi_new/internal/handler/cart"
+	cartitemhalder "erzi_new/internal/handler/cartItem"
 	producthalder "erzi_new/internal/handler/product"
 	userhalder "erzi_new/internal/handler/user"
 	cartrepo "erzi_new/internal/repository/cart"
+	cartitemrepo "erzi_new/internal/repository/cartItem"
 	productrepo "erzi_new/internal/repository/product"
 	userrepo "erzi_new/internal/repository/user"
 	cartsrv "erzi_new/internal/service/cart"
+	cartitemsrv "erzi_new/internal/service/cartItem"
 	productsrv "erzi_new/internal/service/product"
 	usersrv "erzi_new/internal/service/user"
 	"erzi_new/internal/store"
@@ -39,17 +41,23 @@ func main() {
 		log.Fatal(err)
 		return
 	}
-	userRepo := userrepo.NewRepository(db)
-	userSrv := usersrv.NewService(userRepo)
-	userHandler := userhalder.NewHandler(userSrv)
+	//repo
 	cartRepo := cartrepo.NewRepository(db)
-	cartSrv := cartsrv.NewService(cartRepo)
-	cartHandler := cartHalder.NewHandler(cartSrv)
 	productRepo := productrepo.NewRepository(db)
+	userRepo := userrepo.NewRepository(db)
+	cartItemRepo := cartitemrepo.NewRepository(db)
+	//srv
+	cartSrv := cartsrv.NewService(cartRepo)
 	productSrv := productsrv.NewService(productRepo)
+	userSrv := usersrv.NewService(userRepo, cartRepo)
+	cartItemSrv := cartitemsrv.NewService(cartItemRepo, cartRepo)
+	//handler
+	userHandler := userhalder.NewHandler(userSrv)
+	cartItemHandler := cartitemhalder.NewHandler(cartItemSrv, cartSrv)
 	productHandler := producthalder.NewHandler(productSrv)
+
 	s := apiserver.New(config)
-	s.ConfigureRouter(productHandler, cartHandler, userHandler)
+	s.ConfigureRouter(productHandler, userHandler, cartItemHandler)
 
 	if err := s.Run(); err != nil {
 		panic(err)

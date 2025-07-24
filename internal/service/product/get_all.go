@@ -1,14 +1,14 @@
 package product
 
-func (s *Service) GetAll() ([]Product, error) {
+func (s *Service) GetAll() ([]Model, error) {
 	dbProductsPtr, err := s.repo.GetAllProducts()
 	if err != nil {
 		return nil, err
 	}
 
-	products := make([]Product, 0, len(dbProductsPtr))
+	products := make([]Model, 0, len(dbProductsPtr))
 	for _, dbp := range dbProductsPtr {
-		var p Product
+		var p Model
 		p.FillFromDB(&dbp)
 		products = append(products, p)
 	}
