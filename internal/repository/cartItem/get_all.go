@@ -9,7 +9,9 @@ func (r *Repository) GetAll(cartID int) ([]ModelWithProduct, error) {
 	cart_items.created_at,
 	products.title,
 	products.price,
-	products.image_url
+	products.image_url,
+	products.bulk_discount_quantity,
+	products.bulk_discount_price
 	FROM cart_items
 	JOIN products
          	 ON cart_items.product_id = products.id
@@ -31,6 +33,8 @@ func (r *Repository) GetAll(cartID int) ([]ModelWithProduct, error) {
 			&itm.Product.Title,
 			&itm.Product.Price,
 			&itm.Product.ImageURL,
+			&itm.Product.BulkDiscountQuantity,
+			&itm.Product.BulkDiscountPrice,
 		); err != nil {
 			return nil, err
 		}

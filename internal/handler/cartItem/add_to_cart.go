@@ -40,7 +40,7 @@ func (h *Handler) AddCartItem(c *gin.Context) {
 	_, err = h.srv.Add(iSrv)
 	if err != nil {
 		logrus.WithError(err).Errorf("[Srv.Add] cant add item")
-		c.JSON(500, gin.H{"error": err.Error()})
+		c.JSON(404, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(200, nil)

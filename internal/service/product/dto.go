@@ -1,7 +1,9 @@
 package product
 
-import "time"
-import "erzi_new/internal/repository/product"
+import (
+	"erzi_new/internal/repository/product"
+	"time"
+)
 
 func (m *Model) FillFromDB(dbm *product.Model) {
 	m.ID = dbm.ID
@@ -12,33 +14,41 @@ func (m *Model) FillFromDB(dbm *product.Model) {
 	m.Quantity = dbm.Quantity
 	m.Category = dbm.Category
 	m.CreatedAt = dbm.CreatedAt
+	m.BulkDiscountQuantity = dbm.BulkDiscountQuantity
+	m.BulkDiscountPrice = dbm.BulkDiscountPrice
 }
 
 type CreateProduct struct {
-	Title       string
-	Description string
-	Price       float64
-	Quantity    int
-	Category    string
+	Title                string
+	Description          string
+	Price                float64
+	Quantity             int
+	Category             string
+	BulkDiscountQuantity int
+	BulkDiscountPrice    float64
 }
 
 type Model struct {
-	ID          int
-	Title       string
-	Description string
-	Price       float64
-	ImageURL    string
-	Quantity    int
-	Category    string
-	CreatedAt   time.Time
+	ID                   int
+	Title                string
+	Description          string
+	Price                float64
+	ImageURL             string
+	Quantity             int
+	Category             string
+	CreatedAt            time.Time
+	BulkDiscountQuantity int
+	BulkDiscountPrice    float64
 }
 
 type UpdateProduct struct {
-	ID          int
-	Title       *string
-	Description *string
-	Price       *float64
-	ImageURL    *string
-	Quantity    *int
-	Category    *string
+	ID                   int
+	Title                *string
+	Description          *string
+	Price                *float64
+	ImageURL             *string
+	Quantity             *int
+	Category             *string
+	BulkDiscountQuantity *int
+	BulkDiscountPrice    *float64
 }

@@ -10,9 +10,11 @@ type Model struct {
 	CreatedAt time.Time
 }
 type ProductMiniInfo struct {
-	Title    string
-	Price    float64
-	ImageURL string
+	Title                string
+	Price                float64
+	ImageURL             string
+	BulkDiscountQuantity int
+	BulkDiscountPrice    float64
 }
 type ModelWithProduct struct {
 	ID        int

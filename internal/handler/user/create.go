@@ -25,9 +25,15 @@ func (m *User) FillFromService(srv *userservice.User) {
 	m.Role = srv.Role
 	m.CreatedAt = srv.CreatedAt
 }
+func (m *RegisterResponse) FillFromRequest(r *userservice.User) {
+	m.Username = r.Username
+	m.Email = r.Email
+	m.Role = r.Role
+}
 
 func (h *Handler) Create(c *gin.Context) {
 	var req RegisterRequest
+	var res RegisterResponse
 	err := validator.BindJSON(&req, c.Request)
 	if err != nil {
 		logrus.WithError(err).Warn("[Validator] Invalid JSON")
@@ -36,6 +42,7 @@ func (h *Handler) Create(c *gin.Context) {
 	}
 	reqSrv := req.ToSrv()
 	createdreqSrv, err := h.srv.Create(reqSrv)
+	res.FillFromRequest(createdreqSrv)
 	if err != nil {
 		logrus.WithError(err).Warn("[Service] Failed to create service")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -46,5 +53,5 @@ func (h *Handler) Create(c *gin.Context) {
 	if createdReq.Role == "" {
 		createdReq.Role = "user"
 	}
-	c.JSON(http.StatusCreated, createdReq)
+	c.JSON(http.StatusCreated, res)
 }

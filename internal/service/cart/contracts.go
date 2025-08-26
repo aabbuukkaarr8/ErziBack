@@ -8,4 +8,5 @@ import (
 type Repo interface {
 	Create(userID uuid.UUID, status string) (*repoCart.Model, error)
 	GetActive(userID uuid.UUID) (int, error)
+	GetDelete(userID uuid.UUID) (int, error)
 }

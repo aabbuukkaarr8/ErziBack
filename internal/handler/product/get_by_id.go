@@ -17,6 +17,8 @@ func (m *Model) FillFromService(sm *product.Model) {
 	m.Quantity = sm.Quantity
 	m.Category = sm.Category
 	m.CreatedAt = sm.CreatedAt
+	m.BulkDiscountQuantity = sm.BulkDiscountQuantity
+	m.BulkDiscountPrice = sm.BulkDiscountPrice
 }
 
 func (h *Handler) GetByID(c *gin.Context) {

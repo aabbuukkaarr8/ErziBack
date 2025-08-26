@@ -6,5 +6,7 @@ CREATE TABLE products (
                           image_url TEXT,
                           quantity INT NOT NULL CHECK (quantity > 0),
                           created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-                          category TEXT NOT NULL
+                          category TEXT NOT NULL,
+                          bulk_discount_quantity INT DEFAULT 0,
+                          bulk_discount_price    NUMERIC(10, 2) DEFAULT 0
 );

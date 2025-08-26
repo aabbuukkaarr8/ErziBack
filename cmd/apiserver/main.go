@@ -49,7 +49,7 @@ func main() {
 	//srv
 	cartSrv := cartsrv.NewService(cartRepo)
 	productSrv := productsrv.NewService(productRepo)
-	userSrv := usersrv.NewService(userRepo, cartRepo)
+	userSrv := usersrv.NewService(userRepo)
 	cartItemSrv := cartitemsrv.NewService(cartItemRepo, cartRepo)
 	//handler
 	userHandler := userhalder.NewHandler(userSrv)

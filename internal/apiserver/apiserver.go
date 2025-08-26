@@ -39,7 +39,6 @@ func (s *APIServer) Run() error {
 	return http.ListenAndServe(s.config.BindAddr, s.router)
 }
 
-// конфигурация логгера
 func (s *APIServer) configLogger() error {
 	level, err := logrus.ParseLevel(s.config.LogLevel)
 	if err != nil {
@@ -49,7 +48,7 @@ func (s *APIServer) configLogger() error {
 	return nil
 }
 func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *userhalder.Handler, cartitemHandler *cartItem.Handler) {
-	s.router.POST("/user/create", userHandler.Create)
+	s.router.POST("/user/register", userHandler.Create)
 	s.router.POST("/user/login", userHandler.Login)
 
 	s.router.GET("/products", prodHandler.GetAll)
@@ -57,21 +56,17 @@ func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *u
 	protected := s.router.Group("/", AuthMiddleware())
 
 	{
-		protected.POST("/cart/delete_all", RequireRole("user", "admin"), cartitemHandler.DeleteAll)
-		protected.DELETE("cart/items/:id/delete", RequireRole("user", "admin"), cartitemHandler.DeleteCartItem)
-		protected.PUT("/cart/items/:id/increment", RequireRole("user", "admin"), cartitemHandler.IncrementQuantity)
-		protected.PUT("/cart/items/:id/decrement", RequireRole("user", "admin"), cartitemHandler.DecrementQuantity)
-		protected.POST("/:product_id/add_to_cart", RequireRole("admin", "user"), cartitemHandler.AddCartItem)
-		protected.GET("/cart/items", RequireRole("admin", "user"), cartitemHandler.GetAllCartItems)
+		protected.POST("/cart/delete_all", cartitemHandler.DeleteAll)
+		protected.DELETE("cart/items/:id/delete", cartitemHandler.DeleteCartItem)
+		protected.PUT("/cart/items/:id/increment", cartitemHandler.IncrementQuantity)
+		protected.PUT("/cart/items/:id/decrement", cartitemHandler.DecrementQuantity)
+		protected.POST("/:product_id/add_to_cart", cartitemHandler.AddCartItem)
+		protected.GET("/cart/items", cartitemHandler.GetAllCartItems)
+		protected.POST("/products/create", RequireRole("admin"), prodHandler.Create)
+		protected.PUT("/products/:id", RequireRole("admin"), prodHandler.Update)
+		protected.DELETE("/products/:id", RequireRole("admin"), prodHandler.Delete)
 	}
 
-	auth := s.router.Group("/auth", AuthMiddleware())
-	{
-		auth.POST("/products/create", RequireRole("admin"), prodHandler.Create)
-		auth.PUT("/products/:id", RequireRole("admin"), prodHandler.Update)
-		auth.DELETE("/products/:id", RequireRole("admin"), prodHandler.Delete)
-
-	}
 }
 
 func RequireRole(allowedRoles ...string) gin.HandlerFunc {

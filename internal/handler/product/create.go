@@ -1,21 +1,25 @@
 package product
 
 import (
-	"github.com/sirupsen/logrus"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 
 	"erzi_new/internal/service/product"
 	"erzi_new/pkg/validator"
+
 	"github.com/gin-gonic/gin"
 )
 
 func (m *CreateProduct) ToSrv() product.CreateProduct {
 	return product.CreateProduct{
-		Title:       m.Title,
-		Description: m.Description,
-		Price:       m.Price,
-		Quantity:    m.Quantity,
-		Category:    m.Category,
+		Title:                m.Title,
+		Description:          m.Description,
+		Price:                m.Price,
+		Quantity:             m.Quantity,
+		Category:             m.Category,
+		BulkDiscountQuantity: m.BulkDiscountQuantity,
+		BulkDiscountPrice:    m.BulkDiscountPrice,
 	}
 }
 

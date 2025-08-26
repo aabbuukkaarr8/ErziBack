@@ -11,7 +11,11 @@ type RegisterRequest struct {
 	Password string `json:"password" validate:"required,min=6,max=64"`
 	Role     string `json:"role,omitempty" validate:"omitempty,oneof=user admin"`
 }
-
+type RegisterResponse struct {
+	Username string `json:"username" validate:"required,min=3,max=30"`
+	Email    string `json:"email" validate:"required,email"`
+	Role     string `json:"role" validate:"required,oneof=user admin"`
+}
 type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`

@@ -15,6 +15,8 @@ func (m *ModelResponse) FillFromDB(dbm *cartItem.ModelWithProduct) {
 	m.Product.Title = dbm.Product.Title
 	m.Product.Price = dbm.Product.Price
 	m.Product.ImageURL = dbm.Product.ImageURL
+	m.Product.BulkDiscountQuantity = dbm.Product.BulkDiscountQuantity
+	m.Product.BulkDiscountPrice = dbm.Product.BulkDiscountPrice
 }
 
 type AddCartItemRequest struct {
@@ -32,9 +34,11 @@ type Model struct {
 }
 
 type ProductMiniInfo struct {
-	Title    string  `json:"title"`
-	Price    float64 `json:"price"`
-	ImageURL string  `json:"image_url"`
+	Title                string  `json:"title"`
+	Price                float64 `json:"price"`
+	ImageURL             string  `json:"image_url"`
+	BulkDiscountQuantity int     `json:"bulk_discount_quantity"`
+	BulkDiscountPrice    float64 `json:"bulk_discount_price"`
 }
 
 type ModelResponse struct {
