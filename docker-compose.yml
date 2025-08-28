@@ -16,8 +16,6 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  # здесь ваш сервис (api), minio, kafka и т.д.
-  # …
 
 volumes:
   pgdata:

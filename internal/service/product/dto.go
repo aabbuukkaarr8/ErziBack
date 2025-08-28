@@ -18,6 +18,26 @@ func (m *Model) FillFromDB(dbm *product.Model) {
 	m.BulkDiscountPrice = dbm.BulkDiscountPrice
 }
 
+func (m *Attribute) FillFromDB(dbm *product.Attribute) {
+	m.ID = dbm.ID
+	m.ProductID = dbm.ProductID
+	m.Key = dbm.Key
+	m.Value = dbm.Value
+}
+
+type AttributeInput struct {
+	ProductID int
+	Key       string
+	Value     string
+}
+
+type Attribute struct {
+	ID        int
+	ProductID int
+	Key       string
+	Value     string
+}
+
 type CreateProduct struct {
 	Title                string
 	Description          string

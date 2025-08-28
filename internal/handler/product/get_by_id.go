@@ -39,5 +39,17 @@ func (h *Handler) GetByID(c *gin.Context) {
 
 	p := Model{}
 	p.FillFromService(ps)
+
+	a, err := h.srv.GetAttributes(p.ID)
+	if err != nil {
+		logrus.WithError(err).Errorf("[Get Attributes]Attributes Not Found")
+	}
+
+	for i := range a {
+		var m Attribute
+		m.FillFromSRV(&a[i])
+		p.Attribute = append(p.Attribute, m)
+	}
 	c.JSON(http.StatusOK, p)
+
 }

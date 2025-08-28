@@ -1,12 +1,14 @@
 package apiserver
 
 import (
+	"erzi_new/internal/handler/cart"
 	"erzi_new/internal/handler/cartItem"
 	userhalder "erzi_new/internal/handler/user"
 	"net/http"
 	"strings"
 
 	"erzi_new/internal/handler/product"
+
 	"github.com/gin-gonic/gin"
 	"github.com/lestrrat-go/jwx/v2/jwa"
 	"github.com/lestrrat-go/jwx/v2/jwt"
@@ -47,7 +49,7 @@ func (s *APIServer) configLogger() error {
 	s.logger.SetLevel(level)
 	return nil
 }
-func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *userhalder.Handler, cartitemHandler *cartItem.Handler) {
+func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *userhalder.Handler, cartitemHandler *cartItem.Handler, cartHandler *cart.Handler) {
 	s.router.POST("/user/register", userHandler.Create)
 	s.router.POST("/user/login", userHandler.Login)
 
@@ -62,9 +64,11 @@ func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *u
 		protected.PUT("/cart/items/:id/decrement", cartitemHandler.DecrementQuantity)
 		protected.POST("/:product_id/add_to_cart", cartitemHandler.AddCartItem)
 		protected.GET("/cart/items", cartitemHandler.GetAllCartItems)
+		protected.POST("/attribute/create", RequireRole("admin"), prodHandler.CreateAttribute)
 		protected.POST("/products/create", RequireRole("admin"), prodHandler.Create)
 		protected.PUT("/products/:id", RequireRole("admin"), prodHandler.Update)
 		protected.DELETE("/products/:id", RequireRole("admin"), prodHandler.Delete)
+		protected.GET("/cart/restore", cartHandler.Restore)
 	}
 
 }

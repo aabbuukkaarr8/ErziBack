@@ -2,6 +2,7 @@ package main
 
 import (
 	"erzi_new/internal/apiserver"
+	carthandler "erzi_new/internal/handler/cart"
 	cartitemhalder "erzi_new/internal/handler/cartItem"
 	producthalder "erzi_new/internal/handler/product"
 	userhalder "erzi_new/internal/handler/user"
@@ -55,9 +56,10 @@ func main() {
 	userHandler := userhalder.NewHandler(userSrv)
 	cartItemHandler := cartitemhalder.NewHandler(cartItemSrv, cartSrv)
 	productHandler := producthalder.NewHandler(productSrv)
+	cartHandler := carthandler.NewHandler(cartSrv)
 
 	s := apiserver.New(config)
-	s.ConfigureRouter(productHandler, userHandler, cartItemHandler)
+	s.ConfigureRouter(productHandler, userHandler, cartItemHandler, cartHandler)
 
 	if err := s.Run(); err != nil {
 		panic(err)

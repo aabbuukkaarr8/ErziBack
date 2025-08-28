@@ -14,3 +14,10 @@ type Model struct {
 	BulkDiscountQuantity int
 	BulkDiscountPrice    float64
 }
+
+type Attribute struct {
+	ID        int
+	ProductID int
+	Key       string
+	Value     string
+}

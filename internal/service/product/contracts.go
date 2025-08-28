@@ -8,4 +8,6 @@ type Repo interface {
 	GetAllProducts() ([]product.Model, error)
 	Update(p *product.Model) (*product.Model, error)
 	Delete(id int) error
+	CreateAttributes(a *product.Attribute) (*product.Attribute, error)
+	GetAttributes(id int) ([]product.Attribute, error)
 }

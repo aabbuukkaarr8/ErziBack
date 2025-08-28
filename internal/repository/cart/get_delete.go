@@ -2,12 +2,11 @@ package cart
 
 import "github.com/google/uuid"
 
-func (r *Repository) GetDelete(userID uuid.UUID) (int, error) {
-	var id int
-	query := `SELECT id FROM carts WHERE user_id = $1 AND status = 'deleted'`
-	err := r.store.GetConn().QueryRow(query, userID).Scan(&id)
+func (r *Repository) RestoreCart(userID uuid.UUID) error {
+	query := `UPDATE carts SET status = 'active' WHERE user_id = $1 AND status = 'deleted'`
+	_, err := r.store.GetConn().Exec(query, userID)
 	if err != nil {
-		return 0, err
+		return err
 	}
-	return id, nil
+	return nil
 }

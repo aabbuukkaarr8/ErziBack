@@ -8,4 +8,6 @@ type Service interface {
 	GetAll() ([]product.Model, error)
 	Update(p product.UpdateProduct) (*product.Model, error)
 	Delete(id int) error
+	CreateAttributes(a product.AttributeInput) (*product.Attribute, error)
+	GetAttributes(id int) ([]product.Attribute, error)
 }
