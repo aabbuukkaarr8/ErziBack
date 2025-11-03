@@ -1,13 +1,14 @@
 package user
 
 import (
+	"context"
 	"errors"
 	"erzi_new/pkg/token"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *Service) Login(email, password string) (string, error) {
-	u, err := s.repo.GetByEmail(email)
+func (s *Service) Login(ctx context.Context, email, password string) (string, error) {
+	u, err := s.repo.GetByEmail(ctx, email)
 	if err != nil {
 		return "", errors.New("user not found")
 	}

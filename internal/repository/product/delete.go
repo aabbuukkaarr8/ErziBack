@@ -1,14 +1,17 @@
 package product
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+)
 
 const deleteProductQuery = `
 DELETE FROM products
 WHERE id = $1
 `
 
-func (r *Repository) Delete(id int) error {
-	res, err := r.store.GetConn().Exec(deleteProductQuery, id)
+func (r *Repository) Delete(ctx context.Context, id int) error {
+	res, err := r.store.GetConn().ExecContext(ctx, deleteProductQuery, id)
 	if err != nil {
 		return fmt.Errorf("repository Delete: %w", err)
 	}

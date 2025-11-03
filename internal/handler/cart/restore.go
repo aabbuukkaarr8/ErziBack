@@ -22,7 +22,7 @@ func (h *Handler) Restore(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
-	err = h.srv.Restore(userID)
+	err = h.srv.Restore(c.Request.Context(), userID)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "you don't have enough permission to restore"})
 	}

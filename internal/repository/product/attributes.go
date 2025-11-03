@@ -1,13 +1,15 @@
 package product
 
-func (r *Repository) CreateAttributes(a *Attribute) (*Attribute, error) {
+import "context"
+
+func (r *Repository) CreateAttributes(ctx context.Context, a *Attribute) (*Attribute, error) {
 	const query = `
 		INSERT INTO product_attributes (product_id, key, value)
 		VALUES ($1, $2, $3)
 		RETURNING id, product_id, key, value
 		`
 	result := &Attribute{}
-	err := r.store.GetConn().QueryRow(
+	err := r.store.GetConn().QueryRowContext(ctx,
 		query,
 		a.ProductID,
 		a.Key,

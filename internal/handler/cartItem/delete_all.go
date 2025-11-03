@@ -25,7 +25,7 @@ func (h *Handler) DeleteAll(c *gin.Context) {
 		return
 	}
 
-	err = h.srv.DeleteAll(userID)
+	err = h.srv.DeleteAll(c.Request.Context(), userID)
 	if err != nil {
 		logrus.WithError(err).Errorf("[srv.DeleteAll] Error")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

@@ -38,7 +38,7 @@ func (h *Handler) Update(c *gin.Context) {
 		return
 	}
 
-	updatedSrv, err := h.srv.Update(input.ToSrv(id))
+	updatedSrv, err := h.srv.Update(c.Request.Context(), input.ToSrv(id))
 	if err != nil {
 		logrus.WithError(err).Errorf("[Update ] Error updating product")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

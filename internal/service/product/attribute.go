@@ -1,11 +1,12 @@
 package product
 
 import (
+	"context"
 	"errors"
 	"erzi_new/internal/repository/product"
 )
 
-func (s *Service) CreateAttributes(a AttributeInput) (*Attribute, error) {
+func (s *Service) CreateAttributes(ctx context.Context, a AttributeInput) (*Attribute, error) {
 	toDB := product.Attribute{
 		ProductID: a.ProductID,
 		Key:       a.Key,
@@ -21,12 +22,12 @@ func (s *Service) CreateAttributes(a AttributeInput) (*Attribute, error) {
 		return nil, errors.New("value is required")
 	}
 
-	_, err := s.repo.GetByID(a.ProductID)
+	_, err := s.repo.GetByID(ctx, a.ProductID)
 	if err != nil {
 		return nil, errors.New("product not found")
 	}
 
-	created, err := s.repo.CreateAttributes(&toDB)
+	created, err := s.repo.CreateAttributes(ctx, &toDB)
 	if err != nil {
 		return nil, err
 	}

@@ -1,13 +1,16 @@
 package cartItem
 
-import "database/sql"
+import (
+	"context"
+	"database/sql"
+)
 
-func (r *Repository) GetByCartAndProduct(cartID, productID int) (*Model, error) {
+func (r *Repository) GetByCartAndProduct(ctx context.Context, cartID, productID int) (*Model, error) {
 	const query = `
         SELECT id, cart_id, product_id, quantity, created_at
           FROM cart_items
          WHERE cart_id = $1 AND product_id = $2`
-	row := r.store.GetConn().QueryRow(query, cartID, productID)
+	row := r.store.GetConn().QueryRowContext(ctx, query, cartID, productID)
 
 	var itm Model
 	if err := row.Scan(

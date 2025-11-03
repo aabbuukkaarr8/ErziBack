@@ -1,6 +1,8 @@
 package cartItem
 
-func (r *Repository) GetAll(cartID int) ([]ModelWithProduct, error) {
+import "context"
+
+func (r *Repository) GetAll(ctx context.Context, cartID int) ([]ModelWithProduct, error) {
 	var out []ModelWithProduct
 	query := `SELECT cart_items.id,
 	cart_items.cart_id,
@@ -17,7 +19,7 @@ func (r *Repository) GetAll(cartID int) ([]ModelWithProduct, error) {
          	 ON cart_items.product_id = products.id
         	WHERE cart_items.cart_id = $1 
         	`
-	rows, err := r.store.GetConn().Query(query, cartID)
+	rows, err := r.store.GetConn().QueryContext(ctx, query, cartID)
 	if err != nil {
 		return nil, err
 	}

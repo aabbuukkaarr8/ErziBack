@@ -1,7 +1,9 @@
 package product
 
-func (s *Service) GetByID(id int) (*Model, error) {
-	dbp, err := s.repo.GetByID(id)
+import "context"
+
+func (s *Service) GetByID(ctx context.Context, id int) (*Model, error) {
+	dbp, err := s.repo.GetByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}

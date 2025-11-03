@@ -15,7 +15,7 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
-	token, err := h.srv.Login(req.Email, req.Password)
+	token, err := h.srv.Login(c.Request.Context(), req.Email, req.Password)
 	if err != nil {
 		logrus.WithError(err).Warn("Login: invalid credentials")
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid credentials"})

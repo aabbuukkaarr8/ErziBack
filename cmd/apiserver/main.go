@@ -3,9 +3,9 @@ package main
 import (
 	"erzi_new/internal/apiserver"
 	carthandler "erzi_new/internal/handler/cart"
-	cartitemhalder "erzi_new/internal/handler/cartItem"
-	producthalder "erzi_new/internal/handler/product"
-	userhalder "erzi_new/internal/handler/user"
+	cartitemhandler "erzi_new/internal/handler/cartItem"
+	producthandler "erzi_new/internal/handler/product"
+	userhandler "erzi_new/internal/handler/user"
 	cartrepo "erzi_new/internal/repository/cart"
 	cartitemrepo "erzi_new/internal/repository/cartItem"
 	productrepo "erzi_new/internal/repository/product"
@@ -53,9 +53,9 @@ func main() {
 	userSrv := usersrv.NewService(userRepo)
 	cartItemSrv := cartitemsrv.NewService(cartItemRepo, cartRepo)
 	//handler
-	userHandler := userhalder.NewHandler(userSrv)
-	cartItemHandler := cartitemhalder.NewHandler(cartItemSrv, cartSrv)
-	productHandler := producthalder.NewHandler(productSrv)
+	userHandler := userhandler.NewHandler(userSrv)
+	cartItemHandler := cartitemhandler.NewHandler(cartItemSrv, cartSrv)
+	productHandler := producthandler.NewHandler(productSrv)
 	cartHandler := carthandler.NewHandler(cartSrv)
 
 	s := apiserver.New(config)

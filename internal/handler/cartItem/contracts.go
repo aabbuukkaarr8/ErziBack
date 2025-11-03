@@ -1,19 +1,20 @@
 package cartItem
 
 import (
+	"context"
 	"erzi_new/internal/service/cartItem"
 	"github.com/google/uuid"
 )
 
 type Service interface {
-	Add(p cartItem.AddCartItemRequest) (*cartItem.Model, error)
-	GetAll(cartID int) ([]cartItem.ModelResponse, error)
-	Increment(ItemID int) (*cartItem.Model, error)
-	Decrement(ItemID int) (*cartItem.Model, error)
-	Delete(itemID int) error
-	DeleteAll(userID uuid.UUID) error
+	Add(ctx context.Context, p cartItem.AddCartItemRequest) (*cartItem.Model, error)
+	GetAll(ctx context.Context, cartID int) ([]cartItem.ModelResponse, error)
+	Increment(ctx context.Context, ItemID int) (*cartItem.Model, error)
+	Decrement(ctx context.Context, ItemID int) (*cartItem.Model, error)
+	Delete(ctx context.Context, itemID int) error
+	DeleteAll(ctx context.Context, userID uuid.UUID) error
 }
 
 type CartService interface {
-	GetActive(userID uuid.UUID) (int, error)
+	GetActive(ctx context.Context, userID uuid.UUID) (int, error)
 }

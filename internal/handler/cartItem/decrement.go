@@ -14,7 +14,7 @@ func (h *Handler) DecrementQuantity(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid item id"})
 		return
 	}
-	updated, err := h.srv.Decrement(id)
+	updated, err := h.srv.Decrement(c.Request.Context(), id)
 	if err != nil {
 		logrus.WithError(err).Error("[Decrement] cant Decrement")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

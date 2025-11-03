@@ -1,12 +1,13 @@
 package user
 
 import (
+	"context"
 	repoUser "erzi_new/internal/repository/user"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
-func (s *Service) Create(input CreateUser) (*User, error) {
+func (s *Service) Create(ctx context.Context, input CreateUser) (*User, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
@@ -20,7 +21,7 @@ func (s *Service) Create(input CreateUser) (*User, error) {
 		CreatedAt: time.Now(),
 	}
 
-	created, err := s.repo.Create(&toDB)
+	created, err := s.repo.Create(ctx, &toDB)
 	if err != nil {
 		return nil, err
 	}

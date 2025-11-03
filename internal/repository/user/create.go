@@ -1,11 +1,12 @@
 package user
 
 import (
+	"context"
 	"github.com/google/uuid"
 	"time"
 )
 
-func (r *Repository) Create(u *User) (*User, error) {
+func (r *Repository) Create(ctx context.Context, u *User) (*User, error) {
 	if u.Role == "" {
 		u.Role = "user"
 	}
@@ -14,7 +15,7 @@ func (r *Repository) Create(u *User) (*User, error) {
 	query := `INSERT INTO users (id, username, email, password, role, created_at)
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING id, username, email, password, role, created_at`
-	err := r.store.GetConn().QueryRow(
+	err := r.store.GetConn().QueryRowContext(ctx,
 		query,
 		uuid.New(),
 		u.Username,

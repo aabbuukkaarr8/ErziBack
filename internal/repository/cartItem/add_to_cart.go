@@ -1,12 +1,15 @@
 package cartItem
 
-import "erzi_new/internal/store"
+import (
+	"context"
+	"erzi_new/internal/store"
+)
 
-func (r *Repository) Create(cartID, productID int) (*Model, error) {
+func (r *Repository) Create(ctx context.Context, cartID, productID int) (*Model, error) {
 	query := `INSERT INTO cart_items (cart_id, product_id, quantity) VALUES ($1, $2, 1) RETURNING id, cart_id, product_id, quantity, created_at`
 	var cartItem Model
 
-	err := r.store.GetConn().QueryRow(query, cartID, productID).Scan(
+	err := r.store.GetConn().QueryRowContext(ctx, query, cartID, productID).Scan(
 		&cartItem.ID,
 		&cartItem.CartID,
 		&cartItem.ProductID,

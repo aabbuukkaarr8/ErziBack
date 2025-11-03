@@ -33,7 +33,7 @@ func (h *Handler) Create(c *gin.Context) {
 	}
 
 	pSrv := p.ToSrv()
-	createdPSrv, err := h.srv.Create(pSrv)
+	createdPSrv, err := h.srv.Create(c.Request.Context(), pSrv)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

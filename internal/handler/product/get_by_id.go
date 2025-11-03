@@ -30,7 +30,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 		return
 	}
 
-	ps, err := h.srv.GetByID(id)
+	ps, err := h.srv.GetByID(c.Request.Context(), id)
 	if err != nil {
 		logrus.WithError(err).Errorf("[Get By ID]Product Not Found")
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
@@ -40,7 +40,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 	p := Model{}
 	p.FillFromService(ps)
 
-	a, err := h.srv.GetAttributes(p.ID)
+	a, err := h.srv.GetAttributes(c.Request.Context(), p.ID)
 	if err != nil {
 		logrus.WithError(err).Errorf("[Get Attributes]Attributes Not Found")
 	}

@@ -1,5 +1,8 @@
 package cartItem
 
-func (s *Service) Delete(itemID int) error {
-	return s.repo.Delete(itemID)
+import "context"
+
+func (s *Service) Delete(ctx context.Context,
+	itemID int) error {
+	return s.repo.Delete(ctx, itemID)
 }

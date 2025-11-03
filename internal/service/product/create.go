@@ -1,12 +1,13 @@
 package product
 
 import (
+	"context"
 	"time"
 
 	"erzi_new/internal/repository/product"
 )
 
-func (s *Service) Create(p CreateProduct) (*Model, error) {
+func (s *Service) Create(ctx context.Context, p CreateProduct) (*Model, error) {
 	toDB := product.Model{
 		Title:                p.Title,
 		Description:          p.Description,
@@ -17,7 +18,7 @@ func (s *Service) Create(p CreateProduct) (*Model, error) {
 		BulkDiscountQuantity: p.BulkDiscountQuantity,
 		BulkDiscountPrice:    p.BulkDiscountPrice,
 	}
-	created, err := s.repo.Create(&toDB)
+	created, err := s.repo.Create(ctx, &toDB)
 	if err != nil {
 		return nil, err
 	}

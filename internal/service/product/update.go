@@ -1,7 +1,9 @@
 package product
 
-func (s *Service) Update(p UpdateProduct) (*Model, error) {
-	current, err := s.repo.GetByID(p.ID)
+import "context"
+
+func (s *Service) Update(ctx context.Context, p UpdateProduct) (*Model, error) {
+	current, err := s.repo.GetByID(ctx, p.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +25,7 @@ func (s *Service) Update(p UpdateProduct) (*Model, error) {
 	if p.Category != nil {
 		current.Category = *p.Category
 	}
-	updated, err := s.repo.Update(current)
+	updated, err := s.repo.Update(ctx, current)
 	if err != nil {
 		return nil, err
 	}

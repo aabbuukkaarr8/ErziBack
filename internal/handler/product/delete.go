@@ -15,7 +15,7 @@ func (h *Handler) Delete(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "неверный Id"})
 		return
 	}
-	err = h.srv.Delete(id)
+	err = h.srv.Delete(c.Request.Context(), id)
 	if err != nil {
 		logrus.WithError(err).Errorf("[Delete] Error deleting product")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

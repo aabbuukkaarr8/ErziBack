@@ -13,7 +13,7 @@ func (h *Handler) IncrementQuantity(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid item id"})
 		return
 	}
-	updated, err := h.srv.Increment(id)
+	updated, err := h.srv.Increment(c.Request.Context(), id)
 	if err != nil {
 		logrus.WithError(err).Error("[CartItem.Increment]")
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

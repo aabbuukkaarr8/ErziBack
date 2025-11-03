@@ -14,7 +14,7 @@ func (h *Handler) DeleteCartItem(c *gin.Context) {
 		return
 	}
 
-	if err := h.srv.Delete(id); err != nil {
+	if err := h.srv.Delete(c.Request.Context(), id); err != nil {
 		logrus.WithError(err).Error("[CartItem.Delete]")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "cannot delete item"})
 		return

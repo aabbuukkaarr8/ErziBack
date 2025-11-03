@@ -1,6 +1,8 @@
 package product
 
-func (r *Repository) Update(p *Model) (*Model, error) {
+import "context"
+
+func (r *Repository) Update(ctx context.Context, p *Model) (*Model, error) {
 	updated := &Model{}
 	query := `
     UPDATE products
@@ -9,7 +11,7 @@ func (r *Repository) Update(p *Model) (*Model, error) {
     RETURNING id, title, description, price, image_url, quantity, category, created_at
   `
 
-	err := r.store.GetConn().QueryRow(
+	err := r.store.GetConn().QueryRowContext(ctx,
 		query,
 		p.Title,
 		p.Description,

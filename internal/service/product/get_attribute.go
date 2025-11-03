@@ -1,7 +1,9 @@
 package product
 
-func (s *Service) GetAttributes(id int) ([]Attribute, error) {
-	dbp, err := s.repo.GetAttributes(id)
+import "context"
+
+func (s *Service) GetAttributes(ctx context.Context, id int) ([]Attribute, error) {
+	dbp, err := s.repo.GetAttributes(ctx, id)
 	if err != nil {
 		return nil, err
 	}

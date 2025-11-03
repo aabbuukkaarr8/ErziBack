@@ -3,7 +3,7 @@ package apiserver
 import (
 	"erzi_new/internal/handler/cart"
 	"erzi_new/internal/handler/cartItem"
-	userhalder "erzi_new/internal/handler/user"
+	userhandler "erzi_new/internal/handler/user"
 	"net/http"
 	"strings"
 
@@ -49,7 +49,7 @@ func (s *APIServer) configLogger() error {
 	s.logger.SetLevel(level)
 	return nil
 }
-func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *userhalder.Handler, cartitemHandler *cartItem.Handler, cartHandler *cart.Handler) {
+func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *userhandler.Handler, cartitemHandler *cartItem.Handler, cartHandler *cart.Handler) {
 	s.router.POST("/user/register", userHandler.Create)
 	s.router.POST("/user/login", userHandler.Login)
 

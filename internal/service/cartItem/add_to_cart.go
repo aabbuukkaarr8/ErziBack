@@ -1,11 +1,14 @@
 package cartItem
 
-import "erzi_new/internal/repository/cartItem"
+import (
+	"context"
+	"erzi_new/internal/repository/cartItem"
+)
 
-func (s *Service) Add(p AddCartItemRequest) (*Model, error) {
-	cartID, err := s.cartService.GetActive(p.UserID)
+func (s *Service) Add(ctx context.Context, p AddCartItemRequest) (*Model, error) {
+	cartID, err := s.cartService.GetActive(ctx, p.UserID)
 	if err != nil {
-		cart, err := s.cartService.Create(p.UserID, "active")
+		cart, err := s.cartService.Create(ctx, p.UserID, "active")
 		if err != nil {
 			return nil, err
 		}
@@ -14,12 +17,12 @@ func (s *Service) Add(p AddCartItemRequest) (*Model, error) {
 	}
 	p.CartID = cartID
 
-	existing, err := s.repo.GetByCartAndProduct(p.CartID, p.ProductID)
+	existing, err := s.repo.GetByCartAndProduct(ctx, p.CartID, p.ProductID)
 	if err != nil {
 		return nil, err
 	}
 	if existing != nil {
-		updated, err := s.repo.UpdateQuantity(existing.ID, existing.Quantity+1)
+		updated, err := s.repo.UpdateQuantity(ctx, existing.ID, existing.Quantity+1)
 		if err != nil {
 			return nil, err
 		}
@@ -33,7 +36,7 @@ func (s *Service) Add(p AddCartItemRequest) (*Model, error) {
 		ProductID: p.ProductID,
 		CartID:    p.CartID,
 	}
-	added, err := s.repo.Create(toDB.CartID, toDB.ProductID)
+	added, err := s.repo.Create(ctx, toDB.CartID, toDB.ProductID)
 	if err != nil {
 		return nil, err
 	}

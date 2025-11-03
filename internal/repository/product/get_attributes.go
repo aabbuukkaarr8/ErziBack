@@ -1,8 +1,10 @@
 package product
 
-func (r *Repository) GetAttributes(id int) ([]Attribute, error) {
+import "context"
+
+func (r *Repository) GetAttributes(ctx context.Context, id int) ([]Attribute, error) {
 	var a []Attribute
-	rows, err := r.store.GetConn().Query(`SELECT * FROM product_attributes WHERE product_id = $1`, id)
+	rows, err := r.store.GetConn().QueryContext(ctx, `SELECT * FROM product_attributes WHERE product_id = $1`, id)
 	if err != nil {
 		return nil, err
 	}

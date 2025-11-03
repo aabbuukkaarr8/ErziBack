@@ -41,7 +41,7 @@ func (h *Handler) Create(c *gin.Context) {
 		return
 	}
 	reqSrv := req.ToSrv()
-	createdreqSrv, err := h.srv.Create(reqSrv)
+	createdreqSrv, err := h.srv.Create(c.Request.Context(), reqSrv)
 	res.FillFromRequest(createdreqSrv)
 	if err != nil {
 		logrus.WithError(err).Warn("[Service] Failed to create service")

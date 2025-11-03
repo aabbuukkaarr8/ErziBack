@@ -24,13 +24,13 @@ func (h *Handler) GetAllCartItems(c *gin.Context) {
 		return
 	}
 
-	cartID, err := h.cartSrv.GetActive(userID)
+	cartID, err := h.cartSrv.GetActive(c.Request.Context(), userID)
 	if err != nil {
 		logrus.WithError(err).Error("[GetAllCartItems] cannot get cart")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "корзина пуста"})
 		return
 	}
-	items, err := h.srv.GetAll(cartID)
+	items, err := h.srv.GetAll(c.Request.Context(), cartID)
 	if err != nil {
 		logrus.WithError(err).Error("[GetAllCartItems] cannot get items")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

@@ -32,7 +32,7 @@ func (h *Handler) CreateAttribute(c *gin.Context) {
 	}
 
 	aSrv := a.ToSrv()
-	createdSrv, err := h.srv.CreateAttributes(aSrv)
+	createdSrv, err := h.srv.CreateAttributes(c.Request.Context(), aSrv)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

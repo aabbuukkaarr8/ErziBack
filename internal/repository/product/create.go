@@ -1,12 +1,14 @@
 package product
 
-func (r *Repository) Create(p *Model) (*Model, error) {
+import "context"
+
+func (r *Repository) Create(ctx context.Context, p *Model) (*Model, error) {
 	returnedP := &Model{}
 	query := `INSERT INTO products (title, description, price, image_url, category, created_at, quantity, bulk_discount_quantity, bulk_discount_price)
               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
               RETURNING id, title, description, price, image_url, category, created_at, quantity, bulk_discount_quantity, bulk_discount_price`
 
-	err := r.store.GetConn().QueryRow(
+	err := r.store.GetConn().QueryRowContext(ctx,
 		query,
 		p.Title,
 		p.Description,

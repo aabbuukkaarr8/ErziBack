@@ -1,10 +1,13 @@
 package cart
 
-import "github.com/google/uuid"
+import (
+	"context"
+	"github.com/google/uuid"
+)
 
-func (r *Repository) RestoreCart(userID uuid.UUID) error {
+func (r *Repository) RestoreCart(ctx context.Context, userID uuid.UUID) error {
 	query := `UPDATE carts SET status = 'active' WHERE user_id = $1 AND status = 'deleted'`
-	_, err := r.store.GetConn().Exec(query, userID)
+	_, err := r.store.GetConn().ExecContext(ctx, query, userID)
 	if err != nil {
 		return err
 	}
