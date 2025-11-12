@@ -30,7 +30,7 @@ func TestRepository_Create(t *testing.T) {
 		ImageURL:    "http://image.url",
 		Category:    "beverages",
 		CreatedAt:   now,
-		Quantity:    1,
+		IsActive:    1,
 	}
 
 	mock.ExpectQuery(regexp.QuoteMeta(
@@ -45,7 +45,7 @@ func TestRepository_Create(t *testing.T) {
 			p.ImageURL,
 			p.Category,
 			now,
-			p.Quantity,
+			p.IsActive,
 		).
 		WillReturnRows(sqlmock.NewRows([]string{
 			"id", "title", "description", "price", "image_url", "category", "created_at", "quantity",
@@ -57,7 +57,7 @@ func TestRepository_Create(t *testing.T) {
 			p.ImageURL,
 			p.Category,
 			now,
-			p.Quantity,
+			p.IsActive,
 		),
 		)
 
@@ -70,7 +70,7 @@ func TestRepository_Create(t *testing.T) {
 	assert.Equal(t, p.ImageURL, returned.ImageURL)
 	assert.Equal(t, p.Category, returned.Category)
 	assert.Equal(t, now, returned.CreatedAt)
-	assert.Equal(t, p.Quantity, returned.Quantity)
+	assert.Equal(t, p.IsActive, returned.IsActive)
 
 	assert.NoError(t, mock.ExpectationsWereMet())
 }

@@ -17,7 +17,7 @@ func (r *Repository) Update(ctx context.Context, p *Model) (*Model, error) {
 		p.Description,
 		p.Price,
 		p.ImageURL,
-		p.Quantity,
+		p.IsActive,
 		p.Category,
 		p.ID,
 	).Scan(
@@ -26,7 +26,7 @@ func (r *Repository) Update(ctx context.Context, p *Model) (*Model, error) {
 		&updated.Description,
 		&updated.Price,
 		&updated.ImageURL,
-		&updated.Quantity,
+		&updated.IsActive,
 		&updated.Category,
 		&updated.CreatedAt,
 	)

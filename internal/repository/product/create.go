@@ -4,9 +4,9 @@ import "context"
 
 func (r *Repository) Create(ctx context.Context, p *Model) (*Model, error) {
 	returnedP := &Model{}
-	query := `INSERT INTO products (title, description, price, image_url, category, created_at, quantity, bulk_discount_quantity, bulk_discount_price)
+	query := `INSERT INTO products (title, description, price, image_url, category, created_at, is_active, bulk_discount_quantity, bulk_discount_price)
               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-              RETURNING id, title, description, price, image_url, category, created_at, quantity, bulk_discount_quantity, bulk_discount_price`
+              RETURNING id, title, description, price, image_url, category, created_at, is_active, bulk_discount_quantity, bulk_discount_price`
 
 	err := r.store.GetConn().QueryRowContext(ctx,
 		query,
@@ -16,10 +16,10 @@ func (r *Repository) Create(ctx context.Context, p *Model) (*Model, error) {
 		p.ImageURL,
 		p.Category,
 		p.CreatedAt,
-		p.Quantity,
+		p.IsActive,
 		p.BulkDiscountQuantity,
 		p.BulkDiscountPrice,
-	).Scan(&returnedP.ID, &returnedP.Title, &returnedP.Description, &returnedP.Price, &returnedP.ImageURL, &returnedP.Category, &returnedP.CreatedAt, &returnedP.Quantity, &returnedP.BulkDiscountQuantity, &returnedP.BulkDiscountPrice)
+	).Scan(&returnedP.ID, &returnedP.Title, &returnedP.Description, &returnedP.Price, &returnedP.ImageURL, &returnedP.Category, &returnedP.CreatedAt, &returnedP.IsActive, &returnedP.BulkDiscountQuantity, &returnedP.BulkDiscountPrice)
 	if err != nil {
 		return nil, err
 	}

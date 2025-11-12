@@ -8,7 +8,7 @@ type Model struct {
 	Description          string
 	Price                float64
 	ImageURL             string
-	Quantity             int
+	IsActive             bool
 	Category             string
 	CreatedAt            time.Time
 	BulkDiscountQuantity int

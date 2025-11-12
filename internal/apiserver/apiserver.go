@@ -50,25 +50,26 @@ func (s *APIServer) configLogger() error {
 	return nil
 }
 func (s *APIServer) ConfigureRouter(prodHandler *product.Handler, userHandler *userhandler.Handler, cartitemHandler *cartItem.Handler, cartHandler *cart.Handler) {
-	s.router.POST("/user/register", userHandler.Create)
-	s.router.POST("/user/login", userHandler.Login)
+	s.router.POST("/api/user/register", userHandler.Create)
+	s.router.POST("/api/user/login", userHandler.Login)
 
-	s.router.GET("/products", prodHandler.GetAll)
-	s.router.GET("/products/:id", prodHandler.GetByID)
+	s.router.GET("/api/products", prodHandler.GetAll)
+	s.router.GET("/api/products/:id", prodHandler.GetByID)
 	protected := s.router.Group("/", AuthMiddleware())
 
 	{
-		protected.POST("/cart/delete_all", cartitemHandler.DeleteAll)
-		protected.DELETE("cart/items/:id/delete", cartitemHandler.DeleteCartItem)
-		protected.PUT("/cart/items/:id/increment", cartitemHandler.IncrementQuantity)
-		protected.PUT("/cart/items/:id/decrement", cartitemHandler.DecrementQuantity)
-		protected.POST("/:product_id/add_to_cart", cartitemHandler.AddCartItem)
-		protected.GET("/cart/items", cartitemHandler.GetAllCartItems)
-		protected.POST("/attribute/create", RequireRole("admin"), prodHandler.CreateAttribute)
-		protected.POST("/products/create", RequireRole("admin"), prodHandler.Create)
-		protected.PUT("/products/:id", RequireRole("admin"), prodHandler.Update)
-		protected.DELETE("/products/:id", RequireRole("admin"), prodHandler.Delete)
-		protected.GET("/cart/restore", cartHandler.Restore)
+		protected.POST("/api/cart/delete_all", cartitemHandler.DeleteAll)
+		protected.DELETE("/api/cart/items/:id/delete", cartitemHandler.DeleteCartItem)
+		protected.PUT("/api/cart/items/:id/increment", cartitemHandler.IncrementQuantity)
+		protected.PUT("/api/cart/items/:id/decrement", cartitemHandler.DecrementQuantity)
+		protected.POST("/api/:product_id/add_to_cart", cartitemHandler.AddCartItem)
+		protected.GET("/api/cart/items", cartitemHandler.GetAllCartItems)
+		protected.POST("/api/admin/attribute/create", RequireRole("admin"), prodHandler.CreateAttribute)
+		protected.POST("/api/admin/products/create", RequireRole("admin"), prodHandler.Create)
+		protected.PUT("/api/admin/products/:id", RequireRole("admin"), prodHandler.Update)
+		protected.DELETE("/api/admin/products/:id", RequireRole("admin"), prodHandler.Delete)
+		protected.GET("/api/cart/restore", cartHandler.Restore)
+		protected.PUT("/api/admin/:product_id/hide", RequireRole("admin"))
 	}
 
 }

@@ -19,8 +19,8 @@ func (s *Service) Update(ctx context.Context, p UpdateProduct) (*Model, error) {
 	if p.ImageURL != nil {
 		current.ImageURL = *p.ImageURL
 	}
-	if p.Quantity != nil {
-		current.Quantity = *p.Quantity
+	if p.IsActive != nil {
+		current.IsActive = *p.IsActive
 	}
 	if p.Category != nil {
 		current.Category = *p.Category

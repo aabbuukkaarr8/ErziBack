@@ -17,7 +17,7 @@ func TestService_Create(t *testing.T) {
 		Title:       "Water",
 		Description: "Bottled spring water",
 		Price:       1.23,
-		Quantity:    42,
+		IsActive:    true,
 		Category:    "beverages",
 	}
 
@@ -27,7 +27,7 @@ func TestService_Create(t *testing.T) {
 		Description: input.Description,
 		Price:       input.Price,
 		ImageURL:    "",
-		Quantity:    input.Quantity,
+		IsActive:    input.IsActive,
 		Category:    input.Category,
 		CreatedAt:   now,
 	}
@@ -36,7 +36,7 @@ func TestService_Create(t *testing.T) {
 			return p.Title == input.Title &&
 				p.Description == input.Description &&
 				p.Price == input.Price &&
-				p.Quantity == input.Quantity
+				p.IsActive == input.IsActive
 
 		})).
 		Return(repoProd, nil)
@@ -49,7 +49,7 @@ func TestService_Create(t *testing.T) {
 		Description: repoProd.Description,
 		Price:       repoProd.Price,
 		ImageURL:    repoProd.ImageURL,
-		Quantity:    repoProd.Quantity,
+		Quantity:    repoProd.IsActive,
 		Category:    repoProd.Category,
 		CreatedAt:   repoProd.CreatedAt,
 	}, *out)

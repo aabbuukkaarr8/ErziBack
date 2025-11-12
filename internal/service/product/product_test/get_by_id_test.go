@@ -22,7 +22,7 @@ func TestService_GetByID_Success(t *testing.T) {
 		Description: "Pure spring",
 		Price:       2.50,
 		ImageURL:    "http://img",
-		Quantity:    100,
+		IsActive:    100,
 		Category:    "beverages",
 		CreatedAt:   now,
 	}

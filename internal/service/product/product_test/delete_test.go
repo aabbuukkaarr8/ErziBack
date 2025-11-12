@@ -21,7 +21,7 @@ func TestService_Delete_Succes(t *testing.T) {
 		Description: "B",
 		Price:       1.23,
 		ImageURL:    "u",
-		Quantity:    1,
+		IsActive:    1,
 		Category:    "beverages",
 		CreatedAt:   now,
 	}
@@ -57,7 +57,7 @@ func TestService_Delete_DeleteError(t *testing.T) {
 		Description: "Y",
 		Price:       2.5,
 		ImageURL:    "u",
-		Quantity:    2,
+		IsActive:    2,
 		Category:    "beverages",
 		CreatedAt:   now,
 	}

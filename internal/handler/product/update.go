@@ -15,7 +15,7 @@ func (m *UpdateProduct) ToSrv(id int) product.UpdateProduct {
 		Title:       m.Title,
 		Description: m.Description,
 		Price:       m.Price,
-		Quantity:    m.Quantity,
+		IsActive:    m.IsActive,
 		ImageURL:    m.ImageURL,
 		Category:    m.Category,
 	}

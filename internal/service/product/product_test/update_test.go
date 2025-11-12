@@ -22,7 +22,7 @@ func TestService_Update_Success(t *testing.T) {
 		Description: "New Desc",
 		Price:       4.56,
 		ImageURL:    "http://new.img",
-		Quantity:    20,
+		IsActive:    20,
 		Category:    "beverages",
 		CreatedAt:   now,
 	}
@@ -39,7 +39,7 @@ func TestService_Update_Success(t *testing.T) {
 			p.Title == original.Title &&
 			p.Description == original.Description &&
 			p.ImageURL == original.ImageURL &&
-			p.Quantity == original.Quantity &&
+			p.IsActive == original.IsActive &&
 			p.Category == original.Category
 	})).Return(original, nil)
 
@@ -63,7 +63,7 @@ func TestService_Update_Fail(t *testing.T) {
 		Description: "Y",
 		Price:       4.56,
 		ImageURL:    "http://new.img",
-		Quantity:    20,
+		IsActive:    20,
 		Category:    "beverages",
 		CreatedAt:   now,
 	}
@@ -79,7 +79,7 @@ func TestService_Update_Fail(t *testing.T) {
 			p.Description == original.Description &&
 			p.Price == original.Price &&
 			p.ImageURL == original.ImageURL &&
-			p.Quantity == original.Quantity &&
+			p.IsActive == original.IsActive &&
 			p.Category == original.Category
 	})).Return((*repo.Model)(nil), errors.New("db fail"))
 

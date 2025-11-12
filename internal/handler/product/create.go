@@ -16,7 +16,7 @@ func (m *CreateProduct) ToSrv() product.CreateProduct {
 		Title:                m.Title,
 		Description:          m.Description,
 		Price:                m.Price,
-		Quantity:             m.Quantity,
+		IsActive:             m.IsActive,
 		Category:             m.Category,
 		BulkDiscountQuantity: m.BulkDiscountQuantity,
 		BulkDiscountPrice:    m.BulkDiscountPrice,

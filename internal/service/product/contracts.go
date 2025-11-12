@@ -13,4 +13,6 @@ type Repo interface {
 	Delete(ctx context.Context, id int) error
 	CreateAttributes(ctx context.Context, a *product.Attribute) (*product.Attribute, error)
 	GetAttributes(ctx context.Context, id int) ([]product.Attribute, error)
+	Hide(ctx context.Context, id int, status bool) error
+	GetStatus(ctx context.Context, id int) (bool, error)
 }

@@ -8,7 +8,7 @@ type CreateProduct struct {
 	Title                string  `json:"title" validate:"required"`
 	Description          string  `json:"description" validate:"required"`
 	Price                float64 `json:"price" validate:"required,min=1"`
-	Quantity             int     `json:"quantity" validate:"min=0"`
+	IsActive             bool    `json:"is_active"`
 	Category             string  `json:"category" validate:"required,oneof=honey-jam meltwater mineral-water equipment"`
 	BulkDiscountQuantity int     `json:"discount_quantity" validate:"min=2"`
 	BulkDiscountPrice    float64 `json:"discount_price"`
@@ -20,7 +20,7 @@ type Model struct {
 	Description          string      `json:"description"`
 	Price                float64     `json:"price"`
 	ImageURL             string      `json:"image_url"`
-	Quantity             int         `json:"quantity"`
+	IsActive             bool        `json:"is_active"`
 	Category             string      `json:"category"`
 	CreatedAt            time.Time   `json:"created_at"`
 	BulkDiscountQuantity int         `json:"discount_quantity"`
@@ -32,7 +32,7 @@ type UpdateProduct struct {
 	Title                *string  `json:"title"`
 	Description          *string  `json:"description"`
 	Price                *float64 `json:"price"`
-	Quantity             *int     `json:"quantity"`
+	IsActive             *bool    `json:"is_active"`
 	ImageURL             *string  `json:"image_url"`
 	Category             *string  `json:"category"`
 	BulkDiscountQuantity *int     `json:"discount_quantity"`

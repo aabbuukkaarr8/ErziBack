@@ -11,4 +11,5 @@ type Service interface {
 	Delete(ctx context.Context, id int) error
 	CreateAttributes(ctx context.Context, a product.AttributeInput) (*product.Attribute, error)
 	GetAttributes(ctx context.Context, id int) ([]product.Attribute, error)
+	Hide(ctx context.Context, id int) error
 }

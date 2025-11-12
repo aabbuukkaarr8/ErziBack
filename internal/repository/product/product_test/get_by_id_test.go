@@ -35,7 +35,7 @@ func TestRepository_GetByID_Succes(t *testing.T) {
 	assert.Equal(t, "Pure spring", p.Description)
 	assert.Equal(t, 2.50, p.Price)
 	assert.Equal(t, "", p.ImageURL)
-	assert.Equal(t, 100, p.Quantity)
+	assert.Equal(t, 100, p.IsActive)
 	assert.Equal(t, "waterBall", p.Category)
 	assert.Equal(t, createdAt, p.CreatedAt)
 

@@ -14,7 +14,7 @@ func (m *Model) FillFromService(sm *product.Model) {
 	m.Description = sm.Description
 	m.Price = sm.Price
 	m.ImageURL = sm.ImageURL
-	m.Quantity = sm.Quantity
+	m.IsActive = sm.IsActive
 	m.Category = sm.Category
 	m.CreatedAt = sm.CreatedAt
 	m.BulkDiscountQuantity = sm.BulkDiscountQuantity

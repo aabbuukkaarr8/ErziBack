@@ -26,15 +26,15 @@ func TestRepository_Update_Succes(t *testing.T) {
 		Description: "New Desc",
 		Price:       9.99,
 		ImageURL:    "http://new.img",
-		Quantity:    42,
+		IsActive:    42,
 		Category:    "WaterBall",
 	}
 	query := `UPDATE products SET title = $1, description = $2, price = $3, image_url = $4, quantity = $5, category = $6 WHERE id = $7 RETURNING id, title, description, price, image_url, quantity, category, created_at`
 	cols := []string{"id", "title", "description", "price", "image_url", "quantity", "category", "created_at"}
 	mock.ExpectQuery(regexp.QuoteMeta(query)).
-		WithArgs(input.Title, input.Description, input.Price, input.ImageURL, input.Quantity, input.Category, input.ID).
+		WithArgs(input.Title, input.Description, input.Price, input.ImageURL, input.IsActive, input.Category, input.ID).
 		WillReturnRows(sqlmock.NewRows(cols).
-			AddRow(input.ID, input.Title, input.Description, input.Price, input.ImageURL, input.Quantity, input.Category, now),
+			AddRow(input.ID, input.Title, input.Description, input.Price, input.ImageURL, input.IsActive, input.Category, now),
 		)
 	updated, err := repo.Update(input)
 	assert.NoError(t, err)
@@ -43,7 +43,7 @@ func TestRepository_Update_Succes(t *testing.T) {
 	assert.Equal(t, input.Description, updated.Description)
 	assert.Equal(t, input.Price, updated.Price)
 	assert.Equal(t, input.ImageURL, updated.ImageURL)
-	assert.Equal(t, input.Quantity, updated.Quantity)
+	assert.Equal(t, input.IsActive, updated.IsActive)
 	assert.Equal(t, input.Category, updated.Category)
 	assert.Equal(t, now, updated.CreatedAt)
 	assert.NoError(t, mock.ExpectationsWereMet())
@@ -64,12 +64,12 @@ func TestRepository_Update_NotFound(t *testing.T) {
 		Price:       0.1,
 		ImageURL:    "http://img",
 		Category:    "WaterBall",
-		Quantity:    1,
+		IsActive:    1,
 	}
 
 	query := `UPDATE products SET title = $1, description = $2, price = $3, image_url = $4, quantity = $5, category = $6 WHERE id = $7 RETURNING id, title, description, price, image_url, quantity, category, created_at`
 	mock.ExpectQuery(regexp.QuoteMeta(query)).
-		WithArgs(input.Title, input.Description, input.Price, input.ImageURL, input.Quantity, input.Category, input.ID).
+		WithArgs(input.Title, input.Description, input.Price, input.ImageURL, input.IsActive, input.Category, input.ID).
 		WillReturnError(sql.ErrNoRows)
 
 	_, err = repo.Update(input)
@@ -107,7 +107,7 @@ func TestRepository_Update_OnlyPrice(t *testing.T) {
 	assert.Equal(t, "", updated.Description)
 	assert.Equal(t, input.Price, updated.Price)
 	assert.Equal(t, "", updated.ImageURL)
-	assert.Equal(t, 0, updated.Quantity)
+	assert.Equal(t, 0, updated.IsActive)
 	assert.Equal(t, "", updated.Category)
 	assert.Equal(t, now, updated.CreatedAt)
 

@@ -11,7 +11,7 @@ func (m *Model) FillFromDB(dbm *product.Model) {
 	m.Description = dbm.Description
 	m.Price = dbm.Price
 	m.ImageURL = dbm.ImageURL
-	m.Quantity = dbm.Quantity
+	m.IsActive = dbm.IsActive
 	m.Category = dbm.Category
 	m.CreatedAt = dbm.CreatedAt
 	m.BulkDiscountQuantity = dbm.BulkDiscountQuantity
@@ -42,7 +42,7 @@ type CreateProduct struct {
 	Title                string
 	Description          string
 	Price                float64
-	Quantity             int
+	IsActive             bool
 	Category             string
 	BulkDiscountQuantity int
 	BulkDiscountPrice    float64
@@ -54,7 +54,7 @@ type Model struct {
 	Description          string
 	Price                float64
 	ImageURL             string
-	Quantity             int
+	IsActive             bool
 	Category             string
 	CreatedAt            time.Time
 	BulkDiscountQuantity int
@@ -67,7 +67,7 @@ type UpdateProduct struct {
 	Description          *string
 	Price                *float64
 	ImageURL             *string
-	Quantity             *int
+	IsActive             *bool
 	Category             *string
 	BulkDiscountQuantity *int
 	BulkDiscountPrice    *float64

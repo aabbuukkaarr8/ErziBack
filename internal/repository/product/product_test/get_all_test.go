@@ -37,7 +37,7 @@ func TestRepository_GetAllProducts(t *testing.T) {
 	assert.Equal(t, "Spring water", list[0].Description)
 	assert.Equal(t, 1.23, list[0].Price)
 	assert.Equal(t, "http://img1", list[0].ImageURL)
-	assert.Equal(t, 10, list[0].Quantity)
+	assert.Equal(t, 10, list[0].IsActive)
 	assert.Equal(t, "waterBall", list[0].Category)
 	assert.Equal(t, now, list[0].CreatedAt)
 
@@ -46,7 +46,7 @@ func TestRepository_GetAllProducts(t *testing.T) {
 	assert.Equal(t, "Orange juice", list[1].Description)
 	assert.Equal(t, 2.34, list[1].Price)
 	assert.Equal(t, "http://img2", list[1].ImageURL)
-	assert.Equal(t, 5, list[1].Quantity)
+	assert.Equal(t, 5, list[1].IsActive)
 	assert.Equal(t, "waterBall", list[1].Category)
 	assert.Equal(t, now, list[1].CreatedAt)
 	assert.NoError(t, mock.ExpectationsWereMet())

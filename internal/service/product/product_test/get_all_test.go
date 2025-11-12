@@ -16,8 +16,8 @@ func TestService_GetAll_Success(t *testing.T) {
 	service := svc.NewService(mr)
 	now := time.Now()
 	repoProds := []repo.Model{
-		{ID: 1, Title: "A", Description: "Desc A", Price: 1.1, ImageURL: "u1", Quantity: 10, Category: "cat1", CreatedAt: now},
-		{ID: 2, Title: "B", Description: "Desc B", Price: 2.2, ImageURL: "u2", Quantity: 20, Category: "cat2", CreatedAt: now},
+		{ID: 1, Title: "A", Description: "Desc A", Price: 1.1, ImageURL: "u1", IsActive: 10, Category: "cat1", CreatedAt: now},
+		{ID: 2, Title: "B", Description: "Desc B", Price: 2.2, ImageURL: "u2", IsActive: 20, Category: "cat2", CreatedAt: now},
 	}
 	mr.On("GetAllProducts").Return(repoProds, nil)
 	got, err := service.GetAll()
