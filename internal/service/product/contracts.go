@@ -9,6 +9,7 @@ type Repo interface {
 	Create(ctx context.Context, p *product.Model) (*product.Model, error)
 	GetByID(ctx context.Context, id int) (*product.Model, error)
 	GetAllProducts() ([]product.Model, error)
+	GetActiveProducts() ([]product.Model, error)
 	Update(ctx context.Context, p *product.Model) (*product.Model, error)
 	Delete(ctx context.Context, id int) error
 	CreateAttributes(ctx context.Context, a *product.Attribute) (*product.Attribute, error)

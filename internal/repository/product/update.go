@@ -6,9 +6,9 @@ func (r *Repository) Update(ctx context.Context, p *Model) (*Model, error) {
 	updated := &Model{}
 	query := `
     UPDATE products
-    SET title = $1, description = $2, price = $3, image_url = $4, quantity = $5, category = $6
+    SET title = $1, description = $2, price = $3, image_url = $4, is_active = $5, category = $6
     WHERE id = $7
-    RETURNING id, title, description, price, image_url, quantity, category, created_at
+    RETURNING id, title, description, price, image_url, is_active, category, created_at
   `
 
 	err := r.store.GetConn().QueryRowContext(ctx,
