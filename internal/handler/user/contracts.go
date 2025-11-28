@@ -1,10 +1,11 @@
-package cart
+package user
 
 import (
-	repoUser "erzi_new/internal/repository/user"
-	product "erzi_new/internal/service/user"
+	"context"
+	userservice "erzi_new/internal/service/user"
 )
 
 type Service interface {
-	Create(input product.CreateUser) (*repoUser.User, error)
+	Create(ctx context.Context, input userservice.CreateUser) (*userservice.User, error)
+	Login(ctx context.Context, email, password string) (string, error)
 }

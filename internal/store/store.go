@@ -37,3 +37,6 @@ func (s *Store) Close() {
 		return
 	}
 }
+func (s *Store) SetConn(db *sql.DB) {
+	s.db = db
+}

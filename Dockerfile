@@ -1,27 +1,12 @@
-# Stage 1: билд
-FROM golang:1.24-alpine AS builder
-WORKDIR /app
+# docker/Dockerfile.postgres
+FROM postgres:16.6-alpine3.20
 
-# Кэшируем модули
-COPY go.mod go.sum ./
-RUN go mod download
+# Копируем миграции (они уже пронумерованы: 000001_…, 000002_… и т.д.)
+COPY db/migrations/*.up.sql /docker-entrypoint-initdb.d/
 
-# Копируем весь исходный код
-COPY . .
+# Копируем insert.sql и даём ему имя так,
+# чтобы он выполнялся после всех миграций (например, 999_insert.sql)
+COPY db/insert/insert.sql /docker-entrypoint-initdb.d/999_insert.sql
 
-# Собираем бинарник из папки cmd/apiserver
-RUN go build -o apiserver ./cmd/apiserver
-
-# Stage 2: рантайм
-FROM alpine:latest
-RUN apk add --no-cache ca-certificates
-
-WORKDIR /app
-# Копируем готовый бинарник
-COPY --from=builder /app/apiserver .
-COPY --from=builder /app/configs    ./configs
-
-ENV PORT=8080
-EXPOSE 8080
-
-CMD ["./apiserver"]
+# (По желанию) задаём рабочую директорию
+WORKDIR /docker-entrypoint-initdb.d

@@ -1,16 +1,9 @@
 package product
 
-type UpdateProduct struct {
-	ID          int
-	Title       *string
-	Description *string
-	Price       *float64
-	ImageURL    *string
-	Quantity    *int
-}
+import "context"
 
-func (s *Service) Update(p UpdateProduct) (*Product, error) {
-	current, err := s.repo.GetByID(p.ID)
+func (s *Service) Update(ctx context.Context, p UpdateProduct) (*Model, error) {
+	current, err := s.repo.GetByID(ctx, p.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -26,15 +19,18 @@ func (s *Service) Update(p UpdateProduct) (*Product, error) {
 	if p.ImageURL != nil {
 		current.ImageURL = *p.ImageURL
 	}
-	if p.Quantity != nil {
-		current.Quantity = *p.Quantity
+	if p.IsActive != nil {
+		current.IsActive = *p.IsActive
 	}
-	updated, err := s.repo.Update(current)
+	if p.Category != nil {
+		current.Category = *p.Category
+	}
+	updated, err := s.repo.Update(ctx, current)
 	if err != nil {
 		return nil, err
 	}
 
-	fromDb := &Product{}
+	fromDb := &Model{}
 	fromDb.FillFromDB(updated)
 	return fromDb, nil
 

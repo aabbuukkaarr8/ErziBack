@@ -1,17 +1,17 @@
 package cart
 
-type Cart struct {
-	ID     int
-	UserID int
-}
+import (
+	"context"
+	"github.com/google/uuid"
+)
 
-func (r *Repository) Create(userID int) (*Cart, error) {
-	var c Cart
-	err := r.store.GetConn().QueryRow(`INSERT INTO carts(user_id) VALUES($1) RETURNING id, user_id`,
-		userID,
-	).Scan(&c.ID, &c.UserID)
-	if err != nil {
+func (r *Repository) Create(ctx context.Context, userID uuid.UUID, status string) (*Model, error) {
+	query := `INSERT INTO carts (user_id, status) VALUES ($1, $2) RETURNING id, user_id, status`
+	row := r.store.GetConn().QueryRowContext(ctx, query, userID, status)
+
+	var cart Model
+	if err := row.Scan(&cart.ID, &cart.UserID, &cart.Status); err != nil {
 		return nil, err
 	}
-	return &c, nil
+	return &cart, nil
 }

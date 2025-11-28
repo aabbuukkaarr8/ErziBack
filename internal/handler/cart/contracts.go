@@ -1,16 +1,9 @@
 package cart
 
-import "erzi_new/internal/repository/cart"
+import "context"
+import "github.com/google/uuid"
 
 type Service interface {
-	CreateCart(userID int) (*cart.Cart, error)
+	GetActive(ctx context.Context, userID uuid.UUID) (int, error)
+	Restore(ctx context.Context, userID uuid.UUID) error
 }
-
-//type Service interface {
-//	CreateCart(userID int) (*cart.Cart, error)
-//	GetCart(id int) (*cart.Cart, error)
-//	AddToCart(cartID, productID, qty int) (*cart.CartItem, error)
-//	UpdateCartItem(itemID, qty int) error
-//	RemoveCartItem(itemID int) error
-//	ListCartItems(cartID int) ([]cart.CartItem, error)
-//}

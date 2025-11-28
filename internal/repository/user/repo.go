@@ -1,4 +1,4 @@
-package cart
+package user
 
 import "erzi_new/internal/store"
 
