@@ -8,32 +8,27 @@ import (
 )
 
 func (s *Service) Create(ctx context.Context, p CreateProduct) (*Model, error) {
+	prices := make(product.Prices, len(p.Prices))
+	for i, priceEntry := range p.Prices {
+		prices[i] = product.PriceEntry{
+			Quantity: priceEntry.Quantity,
+			Price:    priceEntry.Price,
+		}
+	}
 	toDB := product.Model{
-		Title:                p.Title,
-		Description:          p.Description,
-		Price:                p.Price,
-		IsActive:             p.IsActive,
-		Category:             p.Category,
-		CreatedAt:            time.Now(),
-		BulkDiscountQuantity: p.BulkDiscountQuantity,
-		BulkDiscountPrice:    p.BulkDiscountPrice,
+		Title:       p.Title,
+		Description: p.Description,
+		IsActive:    p.IsActive,
+		Category:    p.Category,
+		CreatedAt:   time.Now(),
+		Prices:      prices,
 	}
 	created, err := s.repo.Create(ctx, &toDB)
 	if err != nil {
 		return nil, err
 	}
 
-	fromDB := Model{
-		ID:                   created.ID,
-		Title:                created.Title,
-		Description:          created.Description,
-		Price:                created.Price,
-		ImageURL:             created.ImageURL,
-		IsActive:             created.IsActive,
-		Category:             created.Category,
-		CreatedAt:            created.CreatedAt,
-		BulkDiscountQuantity: created.BulkDiscountQuantity,
-		BulkDiscountPrice:    created.BulkDiscountPrice,
-	}
+	fromDB := Model{}
+	fromDB.FillFromDB(created)
 	return &fromDB, nil
 }

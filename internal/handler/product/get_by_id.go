@@ -2,23 +2,28 @@ package product
 
 import (
 	"erzi_new/internal/service/product"
-	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 func (m *Model) FillFromService(sm *product.Model) {
 	m.ID = sm.ID
 	m.Title = sm.Title
 	m.Description = sm.Description
-	m.Price = sm.Price
 	m.ImageURL = sm.ImageURL
 	m.IsActive = sm.IsActive
 	m.Category = sm.Category
 	m.CreatedAt = sm.CreatedAt
-	m.BulkDiscountQuantity = sm.BulkDiscountQuantity
-	m.BulkDiscountPrice = sm.BulkDiscountPrice
+	m.Prices = make([]PriceEntry, len(sm.Prices))
+	for i, p := range sm.Prices {
+		m.Prices[i] = PriceEntry{
+			Quantity: p.Quantity,
+			Price:    p.Price,
+		}
+	}
 }
 
 func (h *Handler) GetByID(c *gin.Context) {

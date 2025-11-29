@@ -12,14 +12,19 @@ import (
 )
 
 func (m *CreateProduct) ToSrv() product.CreateProduct {
+	prices := make([]product.PriceEntry, len(m.Prices))
+	for i, p := range m.Prices {
+		prices[i] = product.PriceEntry{
+			Quantity: p.Quantity,
+			Price:    p.Price,
+		}
+	}
 	return product.CreateProduct{
-		Title:                m.Title,
-		Description:          m.Description,
-		Price:                m.Price,
-		IsActive:             m.IsActive,
-		Category:             m.Category,
-		BulkDiscountQuantity: m.BulkDiscountQuantity,
-		BulkDiscountPrice:    m.BulkDiscountPrice,
+		Title:       m.Title,
+		Description: m.Description,
+		IsActive:    m.IsActive,
+		Category:    m.Category,
+		Prices:      prices,
 	}
 }
 

@@ -5,17 +5,27 @@ import (
 	"time"
 )
 
+// PriceEntry представляет одну запись цены
+type PriceEntry struct {
+	Quantity int     `json:"quantity"`
+	Price    float64 `json:"price"`
+}
+
 func (m *Model) FillFromDB(dbm *product.Model) {
 	m.ID = dbm.ID
 	m.Title = dbm.Title
 	m.Description = dbm.Description
-	m.Price = dbm.Price
 	m.ImageURL = dbm.ImageURL
 	m.IsActive = dbm.IsActive
 	m.Category = dbm.Category
 	m.CreatedAt = dbm.CreatedAt
-	m.BulkDiscountQuantity = dbm.BulkDiscountQuantity
-	m.BulkDiscountPrice = dbm.BulkDiscountPrice
+	m.Prices = make([]PriceEntry, len(dbm.Prices))
+	for i, p := range dbm.Prices {
+		m.Prices[i] = PriceEntry{
+			Quantity: p.Quantity,
+			Price:    p.Price,
+		}
+	}
 }
 
 func (m *Attribute) FillFromDB(dbm *product.Attribute) {
@@ -39,36 +49,30 @@ type Attribute struct {
 }
 
 type CreateProduct struct {
-	Title                string
-	Description          string
-	Price                float64
-	IsActive             bool
-	Category             string
-	BulkDiscountQuantity int
-	BulkDiscountPrice    float64
+	Title       string
+	Description string
+	IsActive    bool
+	Category    string
+	Prices      []PriceEntry
 }
 
 type Model struct {
-	ID                   int
-	Title                string
-	Description          string
-	Price                float64
-	ImageURL             string
-	IsActive             bool
-	Category             string
-	CreatedAt            time.Time
-	BulkDiscountQuantity int
-	BulkDiscountPrice    float64
+	ID          int
+	Title       string
+	Description string
+	ImageURL    string
+	IsActive    bool
+	Category    string
+	CreatedAt   time.Time
+	Prices      []PriceEntry
 }
 
 type UpdateProduct struct {
-	ID                   int
-	Title                *string
-	Description          *string
-	Price                *float64
-	ImageURL             *string
-	IsActive             *bool
-	Category             *string
-	BulkDiscountQuantity *int
-	BulkDiscountPrice    *float64
+	ID          int
+	Title       *string
+	Description *string
+	ImageURL    *string
+	IsActive    *bool
+	Category    *string
+	Prices      *[]PriceEntry
 }

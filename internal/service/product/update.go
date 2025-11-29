@@ -1,6 +1,9 @@
 package product
 
-import "context"
+import (
+	"context"
+	repoProduct "erzi_new/internal/repository/product"
+)
 
 func (s *Service) Update(ctx context.Context, p UpdateProduct) (*Model, error) {
 	current, err := s.repo.GetByID(ctx, p.ID)
@@ -13,9 +16,6 @@ func (s *Service) Update(ctx context.Context, p UpdateProduct) (*Model, error) {
 	if p.Description != nil {
 		current.Description = *p.Description
 	}
-	if p.Price != nil {
-		current.Price = *p.Price
-	}
 	if p.ImageURL != nil {
 		current.ImageURL = *p.ImageURL
 	}
@@ -24,6 +24,16 @@ func (s *Service) Update(ctx context.Context, p UpdateProduct) (*Model, error) {
 	}
 	if p.Category != nil {
 		current.Category = *p.Category
+	}
+	if p.Prices != nil {
+		prices := make(repoProduct.Prices, len(*p.Prices))
+		for i, priceEntry := range *p.Prices {
+			prices[i] = repoProduct.PriceEntry{
+				Quantity: priceEntry.Quantity,
+				Price:    priceEntry.Price,
+			}
+		}
+		current.Prices = prices
 	}
 	updated, err := s.repo.Update(ctx, current)
 	if err != nil {

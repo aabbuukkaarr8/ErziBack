@@ -10,15 +10,25 @@ import (
 )
 
 func (m *UpdateProduct) ToSrv(id int) product.UpdateProduct {
-	return product.UpdateProduct{
+	upd := product.UpdateProduct{
 		ID:          id,
 		Title:       m.Title,
 		Description: m.Description,
-		Price:       m.Price,
 		IsActive:    m.IsActive,
 		ImageURL:    m.ImageURL,
 		Category:    m.Category,
 	}
+	if m.Prices != nil {
+		prices := make([]product.PriceEntry, len(*m.Prices))
+		for i, p := range *m.Prices {
+			prices[i] = product.PriceEntry{
+				Quantity: p.Quantity,
+				Price:    p.Price,
+			}
+		}
+		upd.Prices = &prices
+	}
+	return upd
 }
 
 func (h *Handler) Update(c *gin.Context) {
